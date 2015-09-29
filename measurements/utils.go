@@ -2,12 +2,12 @@ package measurements
 
 import (
 	"database/sql"
-	"encoding/csv"
 	"encoding/json"
 	"fmt"
 	"github.com/kisielk/sqlstruct"
 	"io"
 	"log"
+	// "opencoredata.org/ocdJanus/metadata"
 	"strconv"
 )
 
@@ -16,17 +16,18 @@ type CVSW struct {
 }
 
 type Table struct {
-	URL string                 `json:"url"`
-	Row []CVSWJanusChemCarbRow `json:"row"`
+	URL string     `json:"url"`
+	Row []JanusRow `json:"row"`
 }
 
-type CVSWJanusChemCarbRow struct {
-	URL       string                      `json:"url"`
-	Rownum    int                         `json:"rownum"`
-	Describes []CVSWJanusChemCarbRowItems `json:"describes"`
+type JanusRow struct {
+	URL       string          `json:"url"`
+	Rownum    int             `json:"rownum"`
+	Describes []JanusRowItems `json:"describes"`
 }
 
-type CVSWJanusChemCarbRowItems struct {
+// make name generic
+type JanusRowItems struct {
 	Leg            int         `json:"Leg"`
 	Site           int         `json:"Site"`
 	Hole           string      `json:"Hole"`
@@ -50,16 +51,6 @@ type NullFloat64 struct {
 	sql.NullFloat64
 }
 
-// func (nf NullFloat64) MarshalText() []byte {
-// 	if nf.Valid {
-// 		log.Printf("Hello/n")
-// 		nfv := nf.Float64
-// 		return []byte(strconv.FormatFloat(nfv, 'f', -1, 64))
-// 	} else {
-// 		return []byte("null")
-// 	}
-// }
-
 func (nf NullFloat64) MarshalText() ([]byte, error) {
 	if nf.Valid {
 		nfv := nf.Float64
@@ -75,21 +66,21 @@ func check(e error) {
 	}
 }
 
-// webCSVBuilder
-// needs URI
+// webCSVBuilder   needs URI
+// call as a passed function
 func dumpJSON(rows *sql.Rows, out io.Writer) error {
-	allResults := []CVSWJanusChemCarbRow{}
+	allResults := []JanusRow{}
 	i := 1
 	for rows.Next() {
-		d := []CVSWJanusChemCarbRowItems{}
-		var t CVSWJanusChemCarbRowItems
+		d := []JanusRowItems{}
+		var t JanusRowItems
 		err := sqlstruct.Scan(&t, rows)
 		if err != nil {
 			log.Print(err)
 		}
 		d = append(d, t)
 		rowURL := fmt.Sprintf("http://example.org/countries.csv#row=%v", i)
-		aRow := CVSWJanusChemCarbRow{rowURL, i, d}
+		aRow := JanusRow{rowURL, i, d}
 		allResults = append(allResults, aRow)
 		i = i + 1
 	}
@@ -104,44 +95,10 @@ func dumpJSON(rows *sql.Rows, out io.Writer) error {
 	_, err := out.Write(res2B)
 	check(err)
 
+	// make metadata
+	// metastruct := &JanusRowItems{}
+	// log.Print(metadata.CSVMetadata(metastruct))
+	// log.Print(metadata.SchemaOrgDataset(metastruct))
+
 	return nil
-}
-
-// http://stackoverflow.com/questions/14477941/read-select-columns-into-string-in-go
-func dumpCSVW(rows *sql.Rows, out io.Writer) error {
-	cols, err := rows.Columns()
-
-	// Result is your slice string.
-	rawResult := make([][]byte, len(cols))
-	result := make([]string, len(cols))
-
-	writer := csv.NewWriter(out)
-	writer.Comma = '\t'
-
-	dest := make([]interface{}, len(cols)) // A temporary interface{} slice
-	for i, _ := range rawResult {
-		dest[i] = &rawResult[i] // Put pointers to each string in the interface slice
-	}
-
-	for rows.Next() {
-		err = rows.Scan(dest...)
-		if err != nil {
-			fmt.Println("Failed to scan row", err)
-			return nil
-		}
-
-		for i, raw := range rawResult {
-			if raw == nil {
-				result[i] = "\\N"
-			} else {
-				result[i] = string(raw)
-			}
-		}
-
-		// fmt.Printf("%#v\n", result)
-		writer.Write(result)
-	}
-	writer.Flush()
-	return nil
-
 }
