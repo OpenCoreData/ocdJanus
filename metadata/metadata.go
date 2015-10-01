@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"reflect"
+	"time"
+	// "strings"
 )
 
 // W3c csvw metadata structs
@@ -52,17 +54,17 @@ type Columns struct {
 
 // schema.org Dataset metadata structs
 type SchemaOrgMetadata struct {
-	Context      []interface{} `json:"@context"`
-	Type         string        `json:"@type"`
-	Author       Author        `json:"author"`
-	Description  string        `json:"description"`
-	Distribution Distribution  `json:"distribution"`
-	Glview_blah  string        `json:"glview:blah"`
-	Glview_foo   string        `json:"glview:foo"`
-	Keywords     string        `json:"keywords"`
-	Name         string        `json:"name"`
-	Spatial      Spatial       `json:"spatial"`
-	URL          string        `json:"url"`
+	Context         []interface{} `json:"@context"`
+	Type            string        `json:"@type"`
+	Author          Author        `json:"author"`
+	Description     string        `json:"description"`
+	Distribution    Distribution  `json:"distribution"`
+	Glview_dataset  string        `json:"glview:dataset"`
+	Glview_keywords string        `json:"glview:keywords"`
+	Keywords        string        `json:"keywords"`
+	Name            string        `json:"name"`
+	Spatial         Spatial       `json:"spatial"`
+	URL             string        `json:"url"`
 }
 
 type Author struct {
@@ -91,7 +93,7 @@ type Geo struct {
 	Longitude string `json:"longitude"`
 }
 
-func CSVMetadata(value interface{}) string {
+func CSVMetadata(value interface{}, measurement string, filename string, uri string, qry string) string {
 	// func reflect(x struct) nil {
 
 	d := []Columns{}
@@ -100,43 +102,49 @@ func CSVMetadata(value interface{}) string {
 	val := reflect.ValueOf(value).Elem()
 	for i := 0; i < val.NumField(); i++ {
 		// valueField := val.Field(i)
-		typeField := val.Type().Field(i)
 		// tag := typeField.Tag
+		typeField := val.Type().Field(i)
 		dnString := fmt.Sprintf("%v", typeField.Name)
 		dtString := fmt.Sprintf("%v", typeField.Type)
+
+		// todo need a map of golang types to csvwtypes to swap out sql.Null*
+
 		t = Columns{Datatype: dtString, Name: dnString}
 		d = append(d, t)
-
-		// fmt.Printf("Field Name: %s,\t Field Value: %v,\t Tag Value: %s and %s\n", typeField.Name, valueField.Interface(), tag.Get("tag_name"), tag.Get("units"))
 	}
 
-	tableschema := TableSchema{AboutURL: "URL", Columns: d, PrimaryKey: "pkey"}
-	schema_url := Schema_url{Id: "id value"}
-	dc_publisher := Dc_publisher{Schema_url: schema_url, Schema_name: "the schema name"}
-	dc_modified := Dc_modified{Type: "type value", Value: "go to the value"}
-	dc_license := Dc_license{Id: "this is the ID"}
+	tableschema := TableSchema{AboutURL: "", Columns: d, PrimaryKey: ""}
+	schema_url := Schema_url{Id: "http://opencoredata.org"}
+	dc_publisher := Dc_publisher{Schema_url: schema_url, Schema_name: "Open Core Data"}
+	timenow := time.Now().Format(time.RFC850)
+	dc_modified := Dc_modified{Type: "xsd:date", Value: timenow}
+	dc_license := Dc_license{Id: "http://opendefinition.org/licenses/cc-by/"}
 
-	keywords := []string{"keyword 1", "keyword 2"}
+	keywords := []string{"DSDP", "ODP", "IODP"}
 
-	csvwmeta := CSVWMeta{Context: "String value", Dc_license: dc_license, Dc_modified: dc_modified, Dc_publisher: dc_publisher, Dc_title: "title here", Dcat_keyword: keywords, TableSchema: tableschema, URL: "url string"}
+	context := "context string here" //
+	dctitle := filename              // title of the dataset
+	url := uri                       // url to download the file
+
+	csvwmeta := CSVWMeta{Context: context, Dc_license: dc_license, Dc_modified: dc_modified, Dc_publisher: dc_publisher, Dc_title: dctitle, Dcat_keyword: keywords, TableSchema: tableschema, URL: url}
 	cvmeatajson, _ := json.MarshalIndent(csvwmeta, "", " ")
 	return string(cvmeatajson)
 
-	// return "Return JSON string for this csvw metadata"
 }
 
-func SchemaOrgDataset(value interface{}) string {
+func SchemaOrgDataset(value interface{}, latitude string, longitude string, measurement string, filename string, uri string, qry string) string {
 	// set up some of our boiler plate schema.org/Dataset elements
 	// need date publishedOn, URL, lat long
 
-	geodata := Geo{Type: "GeoCoordinates", Latitude: "111", Longitude: "80"}
+	geodata := Geo{Type: "GeoCoordinates", Latitude: latitude, Longitude: longitude}
 	spatial := Spatial{Type: "Place", Geo: geodata}
-	distribution := Distribution{Type: "DataDownload", ContentURL: "http://www.bco-dmo.org/dataset/3300/data/download", DatePublished: "2010-02-03", EncodingFormat: "text/tab-separated-values", InLanguage: "en"}
-	author := Author{Type: "Dataset", Description: "Author set description", Name: "Data set name", URL: "http://iodp.org"}
+	timenow := time.Now().Format(time.RFC850)
+	distribution := Distribution{Type: "DataDownload", ContentURL: uri, DatePublished: timenow, EncodingFormat: "text/tab-separated-values", InLanguage: "en"}
+	author := Author{Type: "Organization", Description: "NSF funded International Ocean Discovery Program operated by JRSO", Name: "International Ocean Discovery Program", URL: "http://iodp.org"}
 
 	// contextArray := []interface{"http://schema.org", {"glview": "http://schema.geolink.org/somethingIforgot"}}
 
-	schemametadata := SchemaOrgMetadata{Type: "Dataset", Author: author, Description: "Data set description", Distribution: distribution, Glview_blah: "stuff here", Glview_foo: "stuff here", Keywords: "keywords here", Name: "Data set name", Spatial: spatial, URL: "http://foo.org"}
+	schemametadata := SchemaOrgMetadata{Type: "Dataset", Author: author, Description: "Data set description", Distribution: distribution, Glview_dataset: filename, Glview_keywords: "DSDP, ODP, IODP", Keywords: "DSDP, ODP, IODP", Name: filename, Spatial: spatial, URL: uri}
 	// schemametadata := SchemaOrgMetadata{Context:  ["http://schema.org", {"glview": "http://schema.geolink.org/somethingIforgot"}], Type: "Dataset"}
 
 	schemaorgJSON, _ := json.MarshalIndent(schemametadata, "", " ")

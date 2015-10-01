@@ -33,7 +33,7 @@ func AuthorURI(leg string, site string, hole string, measurement string) string 
 		log.Fatal(err)
 	}
 
-	log.Println(num)
+	// log.Println(num)
 
 	// check if the the result exist..  if so, return it..  not a new one
 	if num == 0 {
