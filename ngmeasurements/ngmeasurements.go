@@ -3,7 +3,7 @@ package ngmeasurements
 import (
 	"bytes"
 	// "fmt"
-	"github.com/kisielk/sqlstruct"
+	// "github.com/kisielk/sqlstruct"
 	// "gopkg.in/mgo.v2"
 	"log"
 	"opencoredata.org/ocdJanus/connect"
@@ -81,8 +81,20 @@ func MasterLoop() {
 		}
 
 		for lshrows.Next() {
-			var lsh LSH
-			err := sqlstruct.Scan(&lsh, lshrows)
+			//var lsh LSH
+			// err := sqlstruct.Scan(&lsh, lshrows)
+
+			var (
+				legtmp   string
+				sitetmp  string
+				holetmp  string
+				lattemp  float64
+				longtemp float64
+			)
+
+			err := lshrows.Scan(&legtmp, &sitetmp, &holetmp, &lattemp, &longtemp)
+			lsh := LSH{Leg: legtmp, Site: sitetmp, Hole: holetmp, Latitude_degrees: lattemp, Longitude_degrees: longtemp}
+
 			lsh.Measurement = each
 			if err != nil {
 				log.Print(err)
@@ -120,7 +132,7 @@ func MasterLoop() {
 				mongo.UploadSchemaOrg("test", "schemaorg", uri, schemameta)
 
 			} else {
-				log.Printf("EMPTY Event: %s %s_%s%s  %s\n", measurements[index], lsh.Leg, lsh.Site, lsh.Hole, qry)
+				log.Printf("EMPTY Event: %s %s_%s%s  %v  %v   %s\n", measurements[index], lsh.Leg, lsh.Site, lsh.Hole, lsh.Latitude_degrees, lsh.Longitude_degrees, qry)
 			}
 		}
 	}
