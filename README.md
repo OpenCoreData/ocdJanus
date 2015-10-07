@@ -6,6 +6,29 @@
 *export CGO_LDFLAGS="-L/Users/dfils/src/oracle/instantclient_11_2 -lclntsh"
 *export DYLD_LIBRARY_PATH=/Users/dfils/src/oracle/instantclient_11_2:$DYLD_LIBRARY_PATH
 
+// TODO..  the error is due to the fact I never unmarshal the data...
+  // so the encode is never called...
+  // data, err := bson.Marshal(&final)
+  // this might have to be something the services do...  they will
+  // need the structs too!  ocdServices will need res2B, _ := json.MarshalIndent(final, "", " ")
+
+
+```
+type NullFloat64 struct {
+  sql.NullFloat64
+}
+
+func (nf NullFloat64) MarshalText() ([]byte, error) {
+  if nf.Valid {
+    nfv := nf.Float64
+    return []byte(strconv.FormatFloat(nfv, 'f', -1, 64)), nil
+  } else {
+    return []byte("null"), nil
+  }
+}
+
+var _ encoding.TextMarshaler = NullFloat64{}
+```
 
 W3C csvw.csv-metadata.json
 ```

@@ -21,26 +21,31 @@ type table struct {
 type janusRow struct {
 	URL       string           `json:"url"`
 	Rownum    int              `json:"rownum"`
-	Describes []JanusTestStuff `json:"describes"`
+	Describes []JanusTensorCore `json:"describes"`
 }
 
-// make name generic
-type JanusTestStuff struct {
-	Leg                   int64           `json:"Leg"`
-	Site                  int64           `json:"Site"`
-	Hole                  string          `json:"Hole"`
-	Age_model_type        string          `json:"Age_model_type"`
-	Depth_mbsf            float64         `json:"Depth_mbsf"`
-	Age_ma                sql.NullFloat64 `json:"Age_ma"`
-	Control_point_comment sql.NullString  `json:"Control_point_comment"`
+// make name generic  How to load the body of struct
+type JanusTensorCore struct {
+    Leg                            int64                `json:"Leg"`
+    Site                           int64                `json:"Site"`
+    Hole                           string               `json:"Hole"`
+    Core                           int64                `json:"Core"`
+    Core_type                      string               `json:"Core_type"`
+    Top_depth_mbsf                 float64              `json:"Top_depth_mbsf"`
+    Hole_azimuth                   float64              `json:"Hole_azimuth"`
+    Hole_inclination               float64              `json:"Hole_inclination"`
+    Angle_motf                     float64              `json:"Angle_motf"`
+    Angle_mtf                      float64              `json:"Angle_mtf"`
+    Site_variation                 sql.NullFloat64      `json:"Site_variation"`
+
 }
 
-func AgeDataPointModel() *JanusTestStuff {
-	return &JanusTestStuff{}
+func JanusTensorCoreModel() *JanusTensorCore {
+	return &JanusTensorCore{}
 }
 
 // func JSONData(qry string, uri string, filename string) []byte {
-func AgeDataPoint(qry string, uri string, filename string, database string, collection string) error {
+func JanusTensorCoreFunc(qry string, uri string, filename string, database string, collection string) error {
 
 	conn, err := connect.GetJanusCon()
 	if err != nil {
@@ -56,8 +61,8 @@ func AgeDataPoint(qry string, uri string, filename string, database string, coll
 	allResults := []janusRow{}
 	i := 1
 	for rows.Next() {
-		d := []JanusTestStuff{}
-		var t JanusTestStuff
+		d := []JanusTensorCore{}
+		var t JanusTensorCore
 		err := sqlstruct.Scan(&t, rows)
 		if err != nil {
 			log.Print(err)

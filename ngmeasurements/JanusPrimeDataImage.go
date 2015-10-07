@@ -21,26 +21,33 @@ type table struct {
 type janusRow struct {
 	URL       string           `json:"url"`
 	Rownum    int              `json:"rownum"`
-	Describes []JanusTestStuff `json:"describes"`
+	Describes []JanusPrimeDataImage `json:"describes"`
 }
 
-// make name generic
-type JanusTestStuff struct {
-	Leg                   int64           `json:"Leg"`
-	Site                  int64           `json:"Site"`
-	Hole                  string          `json:"Hole"`
-	Age_model_type        string          `json:"Age_model_type"`
-	Depth_mbsf            float64         `json:"Depth_mbsf"`
-	Age_ma                sql.NullFloat64 `json:"Age_ma"`
-	Control_point_comment sql.NullString  `json:"Control_point_comment"`
+// make name generic  How to load the body of struct
+type JanusPrimeDataImage struct {
+    Leg                            int64                `json:"Leg"`
+    Site                           int64                `json:"Site"`
+    Hole                           string               `json:"Hole"`
+    Core                           int64                `json:"Core"`
+    Core_type                      string               `json:"Core_type"`
+    Section_number                 int64                `json:"Section_number"`
+    Section_type                   string               `json:"Section_type"`
+    Top_cm                         float64              `json:"Top_cm"`
+    Depth_mbsf                     float64              `json:"Depth_mbsf"`
+    Data_type_abbr                 string               `json:"Data_type_abbr"`
+    Fossil_group_name              sql.NullString       `json:"Fossil_group_name"`
+    Page_id                        int64                `json:"Page_id"`
+    Url                            string               `json:"Url"`
+
 }
 
-func AgeDataPointModel() *JanusTestStuff {
-	return &JanusTestStuff{}
+func JanusPrimeDataImageModel() *JanusPrimeDataImage {
+	return &JanusPrimeDataImage{}
 }
 
 // func JSONData(qry string, uri string, filename string) []byte {
-func AgeDataPoint(qry string, uri string, filename string, database string, collection string) error {
+func JanusPrimeDataImageFunc(qry string, uri string, filename string, database string, collection string) error {
 
 	conn, err := connect.GetJanusCon()
 	if err != nil {
@@ -56,8 +63,8 @@ func AgeDataPoint(qry string, uri string, filename string, database string, coll
 	allResults := []janusRow{}
 	i := 1
 	for rows.Next() {
-		d := []JanusTestStuff{}
-		var t JanusTestStuff
+		d := []JanusPrimeDataImage{}
+		var t JanusPrimeDataImage
 		err := sqlstruct.Scan(&t, rows)
 		if err != nil {
 			log.Print(err)

@@ -6,7 +6,7 @@ import (
 )
 
 func main() {
-	ngmeasurements.CoreSummary()
+	ngmeasurements.MasterLoop()
 }
 
 func init() {
