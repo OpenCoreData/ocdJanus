@@ -9,16 +9,16 @@ import (
 	"opencoredata.org/ocdJanus/connect"
 )
 
-type cVSW struct {
-	Tables []table `json:"tables"`
+type JanusDhtApctcVSW struct {
+	Tables []JanusDhtApcttable `json:"tables"`
 }
 
-type table struct {
+type JanusDhtApcttable struct {
 	URL string     `json:"url"`
-	Row []janusRow `json:"row"`
+	Row []JanusDhtApctjanusRow `json:"row"`
 }
 
-type janusRow struct {
+type JanusDhtApctjanusRow struct {
 	URL       string           `json:"url"`
 	Rownum    int              `json:"rownum"`
 	Describes []JanusDhtApct `json:"describes"`
@@ -61,7 +61,7 @@ func JanusDhtApctFunc(qry string, uri string, filename string, database string, 
 		log.Printf(`Error with "%s": %s`, qry, err)
 	}
 
-	allResults := []janusRow{}
+	allResults := []JanusDhtApctjanusRow{}
 	i := 1
 	for rows.Next() {
 		d := []JanusDhtApct{}
@@ -72,15 +72,15 @@ func JanusDhtApctFunc(qry string, uri string, filename string, database string, 
 		}
 		d = append(d, t)
 		rowURL := fmt.Sprintf("%s/%s#row=%v", uri, filename, i)
-		aRow := janusRow{rowURL, i, d}
+		aRow := JanusDhtApctjanusRow{rowURL, i, d}
 		allResults = append(allResults, aRow)
 		i = i + 1
 	}
 
-	theTable := table{fmt.Sprintf("%s/%s", uri, filename), allResults}
-	tableSet := []table{}
+	theTable := JanusDhtApcttable{fmt.Sprintf("%s/%s", uri, filename), allResults}
+	tableSet := []JanusDhtApcttable{}
 	tableSet = append(tableSet, theTable)
-	final := cVSW{tableSet}
+	final := JanusDhtApctcVSW{tableSet}
 
 	session, err := mgo.Dial("127.0.0.1")
 	if err != nil {

@@ -9,16 +9,16 @@ import (
 	"opencoredata.org/ocdJanus/connect"
 )
 
-type cVSW struct {
-	Tables []table `json:"tables"`
+type JanusAgeDatapointcVSW struct {
+	Tables []JanusAgeDatapointtable `json:"tables"`
 }
 
-type table struct {
+type JanusAgeDatapointtable struct {
 	URL string     `json:"url"`
-	Row []janusRow `json:"row"`
+	Row []JanusAgeDatapointjanusRow `json:"row"`
 }
 
-type janusRow struct {
+type JanusAgeDatapointjanusRow struct {
 	URL       string           `json:"url"`
 	Rownum    int              `json:"rownum"`
 	Describes []JanusAgeDatapoint `json:"describes"`
@@ -54,7 +54,7 @@ func JanusAgeDatapointFunc(qry string, uri string, filename string, database str
 		log.Printf(`Error with "%s": %s`, qry, err)
 	}
 
-	allResults := []janusRow{}
+	allResults := []JanusAgeDatapointjanusRow{}
 	i := 1
 	for rows.Next() {
 		d := []JanusAgeDatapoint{}
@@ -65,15 +65,15 @@ func JanusAgeDatapointFunc(qry string, uri string, filename string, database str
 		}
 		d = append(d, t)
 		rowURL := fmt.Sprintf("%s/%s#row=%v", uri, filename, i)
-		aRow := janusRow{rowURL, i, d}
+		aRow := JanusAgeDatapointjanusRow{rowURL, i, d}
 		allResults = append(allResults, aRow)
 		i = i + 1
 	}
 
-	theTable := table{fmt.Sprintf("%s/%s", uri, filename), allResults}
-	tableSet := []table{}
+	theTable := JanusAgeDatapointtable{fmt.Sprintf("%s/%s", uri, filename), allResults}
+	tableSet := []JanusAgeDatapointtable{}
 	tableSet = append(tableSet, theTable)
-	final := cVSW{tableSet}
+	final := JanusAgeDatapointcVSW{tableSet}
 
 	session, err := mgo.Dial("127.0.0.1")
 	if err != nil {

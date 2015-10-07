@@ -9,16 +9,16 @@ import (
 	"opencoredata.org/ocdJanus/connect"
 )
 
-type cVSW struct {
-	Tables []table `json:"tables"`
+type JanusChemCarbcVSW struct {
+	Tables []JanusChemCarbtable `json:"tables"`
 }
 
-type table struct {
+type JanusChemCarbtable struct {
 	URL string     `json:"url"`
-	Row []janusRow `json:"row"`
+	Row []JanusChemCarbjanusRow `json:"row"`
 }
 
-type janusRow struct {
+type JanusChemCarbjanusRow struct {
 	URL       string           `json:"url"`
 	Rownum    int              `json:"rownum"`
 	Describes []JanusChemCarb `json:"describes"`
@@ -64,7 +64,7 @@ func JanusChemCarbFunc(qry string, uri string, filename string, database string,
 		log.Printf(`Error with "%s": %s`, qry, err)
 	}
 
-	allResults := []janusRow{}
+	allResults := []JanusChemCarbjanusRow{}
 	i := 1
 	for rows.Next() {
 		d := []JanusChemCarb{}
@@ -75,15 +75,15 @@ func JanusChemCarbFunc(qry string, uri string, filename string, database string,
 		}
 		d = append(d, t)
 		rowURL := fmt.Sprintf("%s/%s#row=%v", uri, filename, i)
-		aRow := janusRow{rowURL, i, d}
+		aRow := JanusChemCarbjanusRow{rowURL, i, d}
 		allResults = append(allResults, aRow)
 		i = i + 1
 	}
 
-	theTable := table{fmt.Sprintf("%s/%s", uri, filename), allResults}
-	tableSet := []table{}
+	theTable := JanusChemCarbtable{fmt.Sprintf("%s/%s", uri, filename), allResults}
+	tableSet := []JanusChemCarbtable{}
 	tableSet = append(tableSet, theTable)
-	final := cVSW{tableSet}
+	final := JanusChemCarbcVSW{tableSet}
 
 	session, err := mgo.Dial("127.0.0.1")
 	if err != nil {

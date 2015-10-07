@@ -9,16 +9,16 @@ import (
 	"opencoredata.org/ocdJanus/connect"
 )
 
-type cVSW struct {
-	Tables []table `json:"tables"`
+type JanusPwlSectioncVSW struct {
+	Tables []JanusPwlSectiontable `json:"tables"`
 }
 
-type table struct {
+type JanusPwlSectiontable struct {
 	URL string     `json:"url"`
-	Row []janusRow `json:"row"`
+	Row []JanusPwlSectionjanusRow `json:"row"`
 }
 
-type janusRow struct {
+type JanusPwlSectionjanusRow struct {
 	URL       string           `json:"url"`
 	Rownum    int              `json:"rownum"`
 	Describes []JanusPwlSection `json:"describes"`
@@ -85,7 +85,7 @@ func JanusPwlSectionFunc(qry string, uri string, filename string, database strin
 		log.Printf(`Error with "%s": %s`, qry, err)
 	}
 
-	allResults := []janusRow{}
+	allResults := []JanusPwlSectionjanusRow{}
 	i := 1
 	for rows.Next() {
 		d := []JanusPwlSection{}
@@ -96,15 +96,15 @@ func JanusPwlSectionFunc(qry string, uri string, filename string, database strin
 		}
 		d = append(d, t)
 		rowURL := fmt.Sprintf("%s/%s#row=%v", uri, filename, i)
-		aRow := janusRow{rowURL, i, d}
+		aRow := JanusPwlSectionjanusRow{rowURL, i, d}
 		allResults = append(allResults, aRow)
 		i = i + 1
 	}
 
-	theTable := table{fmt.Sprintf("%s/%s", uri, filename), allResults}
-	tableSet := []table{}
+	theTable := JanusPwlSectiontable{fmt.Sprintf("%s/%s", uri, filename), allResults}
+	tableSet := []JanusPwlSectiontable{}
 	tableSet = append(tableSet, theTable)
-	final := cVSW{tableSet}
+	final := JanusPwlSectioncVSW{tableSet}
 
 	session, err := mgo.Dial("127.0.0.1")
 	if err != nil {

@@ -9,16 +9,16 @@ import (
 	"opencoredata.org/ocdJanus/connect"
 )
 
-type cVSW struct {
-	Tables []table `json:"tables"`
+type JanusCoreImagecVSW struct {
+	Tables []JanusCoreImagetable `json:"tables"`
 }
 
-type table struct {
+type JanusCoreImagetable struct {
 	URL string     `json:"url"`
-	Row []janusRow `json:"row"`
+	Row []JanusCoreImagejanusRow `json:"row"`
 }
 
-type janusRow struct {
+type JanusCoreImagejanusRow struct {
 	URL       string           `json:"url"`
 	Rownum    int              `json:"rownum"`
 	Describes []JanusCoreImage `json:"describes"`
@@ -59,7 +59,7 @@ func JanusCoreImageFunc(qry string, uri string, filename string, database string
 		log.Printf(`Error with "%s": %s`, qry, err)
 	}
 
-	allResults := []janusRow{}
+	allResults := []JanusCoreImagejanusRow{}
 	i := 1
 	for rows.Next() {
 		d := []JanusCoreImage{}
@@ -70,15 +70,15 @@ func JanusCoreImageFunc(qry string, uri string, filename string, database string
 		}
 		d = append(d, t)
 		rowURL := fmt.Sprintf("%s/%s#row=%v", uri, filename, i)
-		aRow := janusRow{rowURL, i, d}
+		aRow := JanusCoreImagejanusRow{rowURL, i, d}
 		allResults = append(allResults, aRow)
 		i = i + 1
 	}
 
-	theTable := table{fmt.Sprintf("%s/%s", uri, filename), allResults}
-	tableSet := []table{}
+	theTable := JanusCoreImagetable{fmt.Sprintf("%s/%s", uri, filename), allResults}
+	tableSet := []JanusCoreImagetable{}
 	tableSet = append(tableSet, theTable)
-	final := cVSW{tableSet}
+	final := JanusCoreImagecVSW{tableSet}
 
 	session, err := mgo.Dial("127.0.0.1")
 	if err != nil {

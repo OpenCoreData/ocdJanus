@@ -9,16 +9,16 @@ import (
 	"opencoredata.org/ocdJanus/connect"
 )
 
-type cVSW struct {
-	Tables []table `json:"tables"`
+type JanusSmearSlidecVSW struct {
+	Tables []JanusSmearSlidetable `json:"tables"`
 }
 
-type table struct {
+type JanusSmearSlidetable struct {
 	URL string     `json:"url"`
-	Row []janusRow `json:"row"`
+	Row []JanusSmearSlidejanusRow `json:"row"`
 }
 
-type janusRow struct {
+type JanusSmearSlidejanusRow struct {
 	URL       string           `json:"url"`
 	Rownum    int              `json:"rownum"`
 	Describes []JanusSmearSlide `json:"describes"`
@@ -69,7 +69,7 @@ func JanusSmearSlideFunc(qry string, uri string, filename string, database strin
 		log.Printf(`Error with "%s": %s`, qry, err)
 	}
 
-	allResults := []janusRow{}
+	allResults := []JanusSmearSlidejanusRow{}
 	i := 1
 	for rows.Next() {
 		d := []JanusSmearSlide{}
@@ -80,15 +80,15 @@ func JanusSmearSlideFunc(qry string, uri string, filename string, database strin
 		}
 		d = append(d, t)
 		rowURL := fmt.Sprintf("%s/%s#row=%v", uri, filename, i)
-		aRow := janusRow{rowURL, i, d}
+		aRow := JanusSmearSlidejanusRow{rowURL, i, d}
 		allResults = append(allResults, aRow)
 		i = i + 1
 	}
 
-	theTable := table{fmt.Sprintf("%s/%s", uri, filename), allResults}
-	tableSet := []table{}
+	theTable := JanusSmearSlidetable{fmt.Sprintf("%s/%s", uri, filename), allResults}
+	tableSet := []JanusSmearSlidetable{}
 	tableSet = append(tableSet, theTable)
-	final := cVSW{tableSet}
+	final := JanusSmearSlidecVSW{tableSet}
 
 	session, err := mgo.Dial("127.0.0.1")
 	if err != nil {

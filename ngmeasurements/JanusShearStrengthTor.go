@@ -9,16 +9,16 @@ import (
 	"opencoredata.org/ocdJanus/connect"
 )
 
-type cVSW struct {
-	Tables []table `json:"tables"`
+type JanusShearStrengthTorcVSW struct {
+	Tables []JanusShearStrengthTortable `json:"tables"`
 }
 
-type table struct {
+type JanusShearStrengthTortable struct {
 	URL string     `json:"url"`
-	Row []janusRow `json:"row"`
+	Row []JanusShearStrengthTorjanusRow `json:"row"`
 }
 
-type janusRow struct {
+type JanusShearStrengthTorjanusRow struct {
 	URL       string           `json:"url"`
 	Rownum    int              `json:"rownum"`
 	Describes []JanusShearStrengthTor `json:"describes"`
@@ -67,7 +67,7 @@ func JanusShearStrengthTorFunc(qry string, uri string, filename string, database
 		log.Printf(`Error with "%s": %s`, qry, err)
 	}
 
-	allResults := []janusRow{}
+	allResults := []JanusShearStrengthTorjanusRow{}
 	i := 1
 	for rows.Next() {
 		d := []JanusShearStrengthTor{}
@@ -78,15 +78,15 @@ func JanusShearStrengthTorFunc(qry string, uri string, filename string, database
 		}
 		d = append(d, t)
 		rowURL := fmt.Sprintf("%s/%s#row=%v", uri, filename, i)
-		aRow := janusRow{rowURL, i, d}
+		aRow := JanusShearStrengthTorjanusRow{rowURL, i, d}
 		allResults = append(allResults, aRow)
 		i = i + 1
 	}
 
-	theTable := table{fmt.Sprintf("%s/%s", uri, filename), allResults}
-	tableSet := []table{}
+	theTable := JanusShearStrengthTortable{fmt.Sprintf("%s/%s", uri, filename), allResults}
+	tableSet := []JanusShearStrengthTortable{}
 	tableSet = append(tableSet, theTable)
-	final := cVSW{tableSet}
+	final := JanusShearStrengthTorcVSW{tableSet}
 
 	session, err := mgo.Dial("127.0.0.1")
 	if err != nil {

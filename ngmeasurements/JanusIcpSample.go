@@ -9,16 +9,16 @@ import (
 	"opencoredata.org/ocdJanus/connect"
 )
 
-type cVSW struct {
-	Tables []table `json:"tables"`
+type JanusIcpSamplecVSW struct {
+	Tables []JanusIcpSampletable `json:"tables"`
 }
 
-type table struct {
+type JanusIcpSampletable struct {
 	URL string     `json:"url"`
-	Row []janusRow `json:"row"`
+	Row []JanusIcpSamplejanusRow `json:"row"`
 }
 
-type janusRow struct {
+type JanusIcpSamplejanusRow struct {
 	URL       string           `json:"url"`
 	Rownum    int              `json:"rownum"`
 	Describes []JanusIcpSample `json:"describes"`
@@ -103,7 +103,7 @@ func JanusIcpSampleFunc(qry string, uri string, filename string, database string
 		log.Printf(`Error with "%s": %s`, qry, err)
 	}
 
-	allResults := []janusRow{}
+	allResults := []JanusIcpSamplejanusRow{}
 	i := 1
 	for rows.Next() {
 		d := []JanusIcpSample{}
@@ -114,15 +114,15 @@ func JanusIcpSampleFunc(qry string, uri string, filename string, database string
 		}
 		d = append(d, t)
 		rowURL := fmt.Sprintf("%s/%s#row=%v", uri, filename, i)
-		aRow := janusRow{rowURL, i, d}
+		aRow := JanusIcpSamplejanusRow{rowURL, i, d}
 		allResults = append(allResults, aRow)
 		i = i + 1
 	}
 
-	theTable := table{fmt.Sprintf("%s/%s", uri, filename), allResults}
-	tableSet := []table{}
+	theTable := JanusIcpSampletable{fmt.Sprintf("%s/%s", uri, filename), allResults}
+	tableSet := []JanusIcpSampletable{}
 	tableSet = append(tableSet, theTable)
-	final := cVSW{tableSet}
+	final := JanusIcpSamplecVSW{tableSet}
 
 	session, err := mgo.Dial("127.0.0.1")
 	if err != nil {
