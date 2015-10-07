@@ -14,34 +14,33 @@ type JanusThermalConductivitycVSW struct {
 }
 
 type JanusThermalConductivitytable struct {
-	URL string     `json:"url"`
+	URL string                             `json:"url"`
 	Row []JanusThermalConductivityjanusRow `json:"row"`
 }
 
 type JanusThermalConductivityjanusRow struct {
-	URL       string           `json:"url"`
-	Rownum    int              `json:"rownum"`
+	URL       string                     `json:"url"`
+	Rownum    int                        `json:"rownum"`
 	Describes []JanusThermalConductivity `json:"describes"`
 }
 
 // make name generic  How to load the body of struct
 type JanusThermalConductivity struct {
-    Leg                            int64                `json:"Leg"`
-    Site                           int64                `json:"Site"`
-    Hole                           string               `json:"Hole"`
-    Core                           int64                `json:"Core"`
-    Core_type                      string               `json:"Core_type"`
-    Section_number                 int64                `json:"Section_number"`
-    Section_type                   string               `json:"Section_type"`
-    Top_cm                         float64              `json:"Top_cm"`
-    Bot_cm                         float64              `json:"Bot_cm"`
-    Depth_mbsf                     float64              `json:"Depth_mbsf"`
-    Probe_type                     string               `json:"Probe_type"`
-    Thermcon_value                 float64              `json:"Thermcon_value"`
-    System_id                      sql.NullInt64        `json:"System_id"`
-    Probe_id                       int64                `json:"Probe_id"`
-    Thermcon_comment               sql.NullString       `json:"Thermcon_comment"`
-
+	Leg              int64          `json:"Leg"`
+	Site             int64          `json:"Site"`
+	Hole             string         `json:"Hole"`
+	Core             int64          `json:"Core"`
+	Core_type        string         `json:"Core_type"`
+	Section_number   int64          `json:"Section_number"`
+	Section_type     string         `json:"Section_type"`
+	Top_cm           float64        `json:"Top_cm"`
+	Bot_cm           float64        `json:"Bot_cm"`
+	Depth_mbsf       float64        `json:"Depth_mbsf"`
+	Probe_type       string         `json:"Probe_type"`
+	Thermcon_value   float64        `json:"Thermcon_value"`
+	System_id        sql.NullInt64  `json:"System_id"`
+	Probe_id         int64          `json:"Probe_id"`
+	Thermcon_comment sql.NullString `json:"Thermcon_comment"`
 }
 
 func JanusThermalConductivityModel() *JanusThermalConductivity {

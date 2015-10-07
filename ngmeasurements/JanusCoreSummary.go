@@ -14,31 +14,30 @@ type JanusCoreSummarycVSW struct {
 }
 
 type JanusCoreSummarytable struct {
-	URL string     `json:"url"`
+	URL string                     `json:"url"`
 	Row []JanusCoreSummaryjanusRow `json:"row"`
 }
 
 type JanusCoreSummaryjanusRow struct {
-	URL       string           `json:"url"`
-	Rownum    int              `json:"rownum"`
+	URL       string             `json:"url"`
+	Rownum    int                `json:"rownum"`
 	Describes []JanusCoreSummary `json:"describes"`
 }
 
 // make name generic  How to load the body of struct
 type JanusCoreSummary struct {
-    Leg                            int64                `json:"Leg"`
-    Site                           int64                `json:"Site"`
-    Hole                           string               `json:"Hole"`
-    Core                           int64                `json:"Core"`
-    Core_type                      string               `json:"Core_type"`
-    Top_depth_mbsf                 sql.NullFloat64      `json:"Top_depth_mbsf"`
-    Length_cored                   sql.NullFloat64      `json:"Length_cored"`
-    Length_recovered               sql.NullFloat64      `json:"Length_recovered"`
-    Percent_recovered              sql.NullFloat64      `json:"Percent_recovered"`
-    Curated_length                 sql.NullFloat64      `json:"Curated_length"`
-    Ship_date_time                 sql.NullString       `json:"Ship_date_time"`
-    Core_comment                   sql.NullString       `json:"Core_comment"`
-
+	Leg               int64           `json:"Leg"`
+	Site              int64           `json:"Site"`
+	Hole              string          `json:"Hole"`
+	Core              int64           `json:"Core"`
+	Core_type         string          `json:"Core_type"`
+	Top_depth_mbsf    sql.NullFloat64 `json:"Top_depth_mbsf"`
+	Length_cored      sql.NullFloat64 `json:"Length_cored"`
+	Length_recovered  sql.NullFloat64 `json:"Length_recovered"`
+	Percent_recovered sql.NullFloat64 `json:"Percent_recovered"`
+	Curated_length    sql.NullFloat64 `json:"Curated_length"`
+	Ship_date_time    sql.NullString  `json:"Ship_date_time"`
+	Core_comment      sql.NullString  `json:"Core_comment"`
 }
 
 func JanusCoreSummaryModel() *JanusCoreSummary {

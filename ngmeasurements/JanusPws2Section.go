@@ -14,41 +14,40 @@ type JanusPws2SectioncVSW struct {
 }
 
 type JanusPws2Sectiontable struct {
-	URL string     `json:"url"`
+	URL string                     `json:"url"`
 	Row []JanusPws2SectionjanusRow `json:"row"`
 }
 
 type JanusPws2SectionjanusRow struct {
-	URL       string           `json:"url"`
-	Rownum    int              `json:"rownum"`
+	URL       string             `json:"url"`
+	Rownum    int                `json:"rownum"`
 	Describes []JanusPws2Section `json:"describes"`
 }
 
 // make name generic  How to load the body of struct
 type JanusPws2Section struct {
-    Leg                            int64                `json:"Leg"`
-    Site                           int64                `json:"Site"`
-    Hole                           string               `json:"Hole"`
-    Core                           int64                `json:"Core"`
-    Core_type                      string               `json:"Core_type"`
-    Section_number                 int64                `json:"Section_number"`
-    Section_type                   string               `json:"Section_type"`
-    Top_cm                         float64              `json:"Top_cm"`
-    Bot_cm                         float64              `json:"Bot_cm"`
-    Depth_mbsf                     float64              `json:"Depth_mbsf"`
-    Section_id                     int64                `json:"Section_id"`
-    Direction                      sql.NullString       `json:"Direction"`
-    Velocity_m_s                   float64              `json:"Velocity_m_s"`
-    Run_number                     int64                `json:"Run_number"`
-    Run_timestamp                  sql.NullString       `json:"Run_timestamp"`
-    Core_temperature_c             sql.NullFloat64      `json:"Core_temperature_c"`
-    Raw_data_collected             sql.NullString       `json:"Raw_data_collected"`
-    Measurement_no                 int64                `json:"Measurement_no"`
-    Transducer_separation_mm       sql.NullFloat64      `json:"Transducer_separation_mm"`
-    Measured_time_us               sql.NullFloat64      `json:"Measured_time_us"`
-    Calibration_timestamp          sql.NullString       `json:"Calibration_timestamp"`
-    Calibration_delay              sql.NullFloat64      `json:"Calibration_delay"`
-
+	Leg                      int64           `json:"Leg"`
+	Site                     int64           `json:"Site"`
+	Hole                     string          `json:"Hole"`
+	Core                     int64           `json:"Core"`
+	Core_type                string          `json:"Core_type"`
+	Section_number           int64           `json:"Section_number"`
+	Section_type             string          `json:"Section_type"`
+	Top_cm                   float64         `json:"Top_cm"`
+	Bot_cm                   float64         `json:"Bot_cm"`
+	Depth_mbsf               float64         `json:"Depth_mbsf"`
+	Section_id               int64           `json:"Section_id"`
+	Direction                sql.NullString  `json:"Direction"`
+	Velocity_m_s             float64         `json:"Velocity_m_s"`
+	Run_number               int64           `json:"Run_number"`
+	Run_timestamp            sql.NullString  `json:"Run_timestamp"`
+	Core_temperature_c       sql.NullFloat64 `json:"Core_temperature_c"`
+	Raw_data_collected       sql.NullString  `json:"Raw_data_collected"`
+	Measurement_no           int64           `json:"Measurement_no"`
+	Transducer_separation_mm sql.NullFloat64 `json:"Transducer_separation_mm"`
+	Measured_time_us         sql.NullFloat64 `json:"Measured_time_us"`
+	Calibration_timestamp    sql.NullString  `json:"Calibration_timestamp"`
+	Calibration_delay        sql.NullFloat64 `json:"Calibration_delay"`
 }
 
 func JanusPws2SectionModel() *JanusPws2Section {

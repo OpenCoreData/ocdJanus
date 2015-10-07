@@ -14,36 +14,35 @@ type JanusSedThinSectionSamplecVSW struct {
 }
 
 type JanusSedThinSectionSampletable struct {
-	URL string     `json:"url"`
+	URL string                              `json:"url"`
 	Row []JanusSedThinSectionSamplejanusRow `json:"row"`
 }
 
 type JanusSedThinSectionSamplejanusRow struct {
-	URL       string           `json:"url"`
-	Rownum    int              `json:"rownum"`
+	URL       string                      `json:"url"`
+	Rownum    int                         `json:"rownum"`
 	Describes []JanusSedThinSectionSample `json:"describes"`
 }
 
 // make name generic  How to load the body of struct
 type JanusSedThinSectionSample struct {
-    Leg                            int64                `json:"Leg"`
-    Site                           int64                `json:"Site"`
-    Hole                           string               `json:"Hole"`
-    Core                           int64                `json:"Core"`
-    Core_type                      string               `json:"Core_type"`
-    Section_number                 int64                `json:"Section_number"`
-    Section_type                   string               `json:"Section_type"`
-    Top_cm                         float64              `json:"Top_cm"`
-    Bot_cm                         float64              `json:"Bot_cm"`
-    Depth_mbsf                     float64              `json:"Depth_mbsf"`
-    Location                       string               `json:"Location"`
-    Sample_id                      int64                `json:"Sample_id"`
-    Component_type_code            string               `json:"Component_type_code"`
-    Component_name_code            int64                `json:"Component_name_code"`
-    Sts_component_name             string               `json:"Sts_component_name"`
-    Abundance_code                 sql.NullString       `json:"Abundance_code"`
-    Thin_section_comment           sql.NullString       `json:"Thin_section_comment"`
-
+	Leg                  int64          `json:"Leg"`
+	Site                 int64          `json:"Site"`
+	Hole                 string         `json:"Hole"`
+	Core                 int64          `json:"Core"`
+	Core_type            string         `json:"Core_type"`
+	Section_number       int64          `json:"Section_number"`
+	Section_type         string         `json:"Section_type"`
+	Top_cm               float64        `json:"Top_cm"`
+	Bot_cm               float64        `json:"Bot_cm"`
+	Depth_mbsf           float64        `json:"Depth_mbsf"`
+	Location             string         `json:"Location"`
+	Sample_id            int64          `json:"Sample_id"`
+	Component_type_code  string         `json:"Component_type_code"`
+	Component_name_code  int64          `json:"Component_name_code"`
+	Sts_component_name   string         `json:"Sts_component_name"`
+	Abundance_code       sql.NullString `json:"Abundance_code"`
+	Thin_section_comment sql.NullString `json:"Thin_section_comment"`
 }
 
 func JanusSedThinSectionSampleModel() *JanusSedThinSectionSample {

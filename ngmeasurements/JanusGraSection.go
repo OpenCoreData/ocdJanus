@@ -14,42 +14,41 @@ type JanusGraSectioncVSW struct {
 }
 
 type JanusGraSectiontable struct {
-	URL string     `json:"url"`
+	URL string                    `json:"url"`
 	Row []JanusGraSectionjanusRow `json:"row"`
 }
 
 type JanusGraSectionjanusRow struct {
-	URL       string           `json:"url"`
-	Rownum    int              `json:"rownum"`
+	URL       string            `json:"url"`
+	Rownum    int               `json:"rownum"`
 	Describes []JanusGraSection `json:"describes"`
 }
 
 // make name generic  How to load the body of struct
 type JanusGraSection struct {
-    Leg                            int64                `json:"Leg"`
-    Site                           int64                `json:"Site"`
-    Hole                           string               `json:"Hole"`
-    Core                           int64                `json:"Core"`
-    Core_type                      string               `json:"Core_type"`
-    Section_number                 int64                `json:"Section_number"`
-    Section_type                   string               `json:"Section_type"`
-    Top_cm                         float64              `json:"Top_cm"`
-    Depth_mbsf                     float64              `json:"Depth_mbsf"`
-    Section_id                     int64                `json:"Section_id"`
-    Density_g_cc                   sql.NullFloat64      `json:"Density_g_cc"`
-    Run_number                     string               `json:"Run_number"`
-    Run_timestamp                  string               `json:"Run_timestamp"`
-    Core_status                    string               `json:"Core_status"`
-    Liner_status                   string               `json:"Liner_status"`
-    Requested_daq_interval_cm      sql.NullFloat64      `json:"Requested_daq_interval_cm"`
-    Requested_daq_interval_sec     sql.NullFloat64      `json:"Requested_daq_interval_sec"`
-    Actual_daq_period_sec          float64              `json:"Actual_daq_period_sec"`
-    Measured_counts                int64                `json:"Measured_counts"`
-    Core_diameter                  float64              `json:"Core_diameter"`
-    Calibration_timestamp          string               `json:"Calibration_timestamp"`
-    Calibration_intercept          float64              `json:"Calibration_intercept"`
-    Calibration_slope              float64              `json:"Calibration_slope"`
-
+	Leg                        int64           `json:"Leg"`
+	Site                       int64           `json:"Site"`
+	Hole                       string          `json:"Hole"`
+	Core                       int64           `json:"Core"`
+	Core_type                  string          `json:"Core_type"`
+	Section_number             int64           `json:"Section_number"`
+	Section_type               string          `json:"Section_type"`
+	Top_cm                     float64         `json:"Top_cm"`
+	Depth_mbsf                 float64         `json:"Depth_mbsf"`
+	Section_id                 int64           `json:"Section_id"`
+	Density_g_cc               sql.NullFloat64 `json:"Density_g_cc"`
+	Run_number                 string          `json:"Run_number"`
+	Run_timestamp              string          `json:"Run_timestamp"`
+	Core_status                string          `json:"Core_status"`
+	Liner_status               string          `json:"Liner_status"`
+	Requested_daq_interval_cm  sql.NullFloat64 `json:"Requested_daq_interval_cm"`
+	Requested_daq_interval_sec sql.NullFloat64 `json:"Requested_daq_interval_sec"`
+	Actual_daq_period_sec      float64         `json:"Actual_daq_period_sec"`
+	Measured_counts            int64           `json:"Measured_counts"`
+	Core_diameter              float64         `json:"Core_diameter"`
+	Calibration_timestamp      string          `json:"Calibration_timestamp"`
+	Calibration_intercept      float64         `json:"Calibration_intercept"`
+	Calibration_slope          float64         `json:"Calibration_slope"`
 }
 
 func JanusGraSectionModel() *JanusGraSection {

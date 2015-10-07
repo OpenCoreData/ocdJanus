@@ -14,47 +14,46 @@ type JanusThinSectionImagecVSW struct {
 }
 
 type JanusThinSectionImagetable struct {
-	URL string     `json:"url"`
+	URL string                          `json:"url"`
 	Row []JanusThinSectionImagejanusRow `json:"row"`
 }
 
 type JanusThinSectionImagejanusRow struct {
-	URL       string           `json:"url"`
-	Rownum    int              `json:"rownum"`
+	URL       string                  `json:"url"`
+	Rownum    int                     `json:"rownum"`
 	Describes []JanusThinSectionImage `json:"describes"`
 }
 
 // make name generic  How to load the body of struct
 type JanusThinSectionImage struct {
-    Leg                            int64                `json:"Leg"`
-    Site                           int64                `json:"Site"`
-    Hole                           string               `json:"Hole"`
-    Core                           int64                `json:"Core"`
-    Core_type                      string               `json:"Core_type"`
-    Section_number                 int64                `json:"Section_number"`
-    Section_type                   string               `json:"Section_type"`
-    Top_cm                         float64              `json:"Top_cm"`
-    Bot_cm                         float64              `json:"Bot_cm"`
-    Depth_mbsf                     float64              `json:"Depth_mbsf"`
-    Sam_section_id                 int64                `json:"Sam_section_id"`
-    Piece                          sql.NullInt64        `json:"Piece"`
-    Sub_piece                      sql.NullString       `json:"Sub_piece"`
-    Sample_id                      int64                `json:"Sample_id"`
-    Location                       string               `json:"Location"`
-    Slide_number                   int64                `json:"Slide_number"`
-    Ts_comment                     sql.NullString       `json:"Ts_comment"`
-    Ts_sample_code_lab             sql.NullString       `json:"Ts_sample_code_lab"`
-    Url                            sql.NullString       `json:"Url"`
-    File_name                      sql.NullString       `json:"File_name"`
-    Image_date                     sql.NullString       `json:"Image_date"`
-    Light_abbr                     sql.NullString       `json:"Light_abbr"`
-    Magnification                  sql.NullString       `json:"Magnification"`
-    Feature                        sql.NullString       `json:"Feature"`
-    Scientist_initials             sql.NullString       `json:"Scientist_initials"`
-    Format                         sql.NullString       `json:"Format"`
-    Resolution                     sql.NullInt64        `json:"Resolution"`
-    Micro_image_id                 sql.NullInt64        `json:"Micro_image_id"`
-
+	Leg                int64          `json:"Leg"`
+	Site               int64          `json:"Site"`
+	Hole               string         `json:"Hole"`
+	Core               int64          `json:"Core"`
+	Core_type          string         `json:"Core_type"`
+	Section_number     int64          `json:"Section_number"`
+	Section_type       string         `json:"Section_type"`
+	Top_cm             float64        `json:"Top_cm"`
+	Bot_cm             float64        `json:"Bot_cm"`
+	Depth_mbsf         float64        `json:"Depth_mbsf"`
+	Sam_section_id     int64          `json:"Sam_section_id"`
+	Piece              sql.NullInt64  `json:"Piece"`
+	Sub_piece          sql.NullString `json:"Sub_piece"`
+	Sample_id          int64          `json:"Sample_id"`
+	Location           string         `json:"Location"`
+	Slide_number       int64          `json:"Slide_number"`
+	Ts_comment         sql.NullString `json:"Ts_comment"`
+	Ts_sample_code_lab sql.NullString `json:"Ts_sample_code_lab"`
+	Url                sql.NullString `json:"Url"`
+	File_name          sql.NullString `json:"File_name"`
+	Image_date         sql.NullString `json:"Image_date"`
+	Light_abbr         sql.NullString `json:"Light_abbr"`
+	Magnification      sql.NullString `json:"Magnification"`
+	Feature            sql.NullString `json:"Feature"`
+	Scientist_initials sql.NullString `json:"Scientist_initials"`
+	Format             sql.NullString `json:"Format"`
+	Resolution         sql.NullInt64  `json:"Resolution"`
+	Micro_image_id     sql.NullInt64  `json:"Micro_image_id"`
 }
 
 func JanusThinSectionImageModel() *JanusThinSectionImage {

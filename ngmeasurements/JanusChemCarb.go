@@ -14,36 +14,35 @@ type JanusChemCarbcVSW struct {
 }
 
 type JanusChemCarbtable struct {
-	URL string     `json:"url"`
+	URL string                  `json:"url"`
 	Row []JanusChemCarbjanusRow `json:"row"`
 }
 
 type JanusChemCarbjanusRow struct {
-	URL       string           `json:"url"`
-	Rownum    int              `json:"rownum"`
+	URL       string          `json:"url"`
+	Rownum    int             `json:"rownum"`
 	Describes []JanusChemCarb `json:"describes"`
 }
 
 // make name generic  How to load the body of struct
 type JanusChemCarb struct {
-    Leg                            int64                `json:"Leg"`
-    Site                           int64                `json:"Site"`
-    Hole                           string               `json:"Hole"`
-    Core                           int64                `json:"Core"`
-    Core_type                      string               `json:"Core_type"`
-    Section_number                 int64                `json:"Section_number"`
-    Section_type                   sql.NullString       `json:"Section_type"`
-    Top_cm                         sql.NullFloat64      `json:"Top_cm"`
-    Bot_cm                         sql.NullFloat64      `json:"Bot_cm"`
-    Depth_mbsf                     sql.NullFloat64      `json:"Depth_mbsf"`
-    Inor_c_wt_pct                  sql.NullFloat64      `json:"Inor_c_wt_pct"`
-    Caco3_wt_pct                   sql.NullFloat64      `json:"Caco3_wt_pct"`
-    Tot_c_wt_pct                   sql.NullFloat64      `json:"Tot_c_wt_pct"`
-    Org_c_wt_pct                   sql.NullFloat64      `json:"Org_c_wt_pct"`
-    Nit_wt_pct                     sql.NullFloat64      `json:"Nit_wt_pct"`
-    Sul_wt_pct                     sql.NullFloat64      `json:"Sul_wt_pct"`
-    H_wt_pct                       sql.NullFloat64      `json:"H_wt_pct"`
-
+	Leg            int64           `json:"Leg"`
+	Site           int64           `json:"Site"`
+	Hole           string          `json:"Hole"`
+	Core           int64           `json:"Core"`
+	Core_type      string          `json:"Core_type"`
+	Section_number int64           `json:"Section_number"`
+	Section_type   string          `json:"Section_type"`
+	Top_cm         float64         `json:"Top_cm"`
+	Bot_cm         float64         `json:"Bot_cm"`
+	Depth_mbsf     float64         `json:"Depth_mbsf"`
+	Inor_c_wt_pct  sql.NullFloat64 `json:"Inor_c_wt_pct"`
+	Caco3_wt_pct   sql.NullFloat64 `json:"Caco3_wt_pct"`
+	Tot_c_wt_pct   sql.NullFloat64 `json:"Tot_c_wt_pct"`
+	Org_c_wt_pct   sql.NullFloat64 `json:"Org_c_wt_pct"`
+	Nit_wt_pct     sql.NullFloat64 `json:"Nit_wt_pct"`
+	Sul_wt_pct     sql.NullFloat64 `json:"Sul_wt_pct"`
+	H_wt_pct       sql.NullFloat64 `json:"H_wt_pct"`
 }
 
 func JanusChemCarbModel() *JanusChemCarb {

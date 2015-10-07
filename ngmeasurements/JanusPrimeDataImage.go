@@ -14,32 +14,31 @@ type JanusPrimeDataImagecVSW struct {
 }
 
 type JanusPrimeDataImagetable struct {
-	URL string     `json:"url"`
+	URL string                        `json:"url"`
 	Row []JanusPrimeDataImagejanusRow `json:"row"`
 }
 
 type JanusPrimeDataImagejanusRow struct {
-	URL       string           `json:"url"`
-	Rownum    int              `json:"rownum"`
+	URL       string                `json:"url"`
+	Rownum    int                   `json:"rownum"`
 	Describes []JanusPrimeDataImage `json:"describes"`
 }
 
 // make name generic  How to load the body of struct
 type JanusPrimeDataImage struct {
-    Leg                            int64                `json:"Leg"`
-    Site                           int64                `json:"Site"`
-    Hole                           string               `json:"Hole"`
-    Core                           int64                `json:"Core"`
-    Core_type                      string               `json:"Core_type"`
-    Section_number                 int64                `json:"Section_number"`
-    Section_type                   string               `json:"Section_type"`
-    Top_cm                         float64              `json:"Top_cm"`
-    Depth_mbsf                     float64              `json:"Depth_mbsf"`
-    Data_type_abbr                 string               `json:"Data_type_abbr"`
-    Fossil_group_name              sql.NullString       `json:"Fossil_group_name"`
-    Page_id                        int64                `json:"Page_id"`
-    Url                            string               `json:"Url"`
-
+	Leg               int64          `json:"Leg"`
+	Site              int64          `json:"Site"`
+	Hole              string         `json:"Hole"`
+	Core              int64          `json:"Core"`
+	Core_type         string         `json:"Core_type"`
+	Section_number    int64          `json:"Section_number"`
+	Section_type      string         `json:"Section_type"`
+	Top_cm            float64        `json:"Top_cm"`
+	Depth_mbsf        float64        `json:"Depth_mbsf"`
+	Data_type_abbr    string         `json:"Data_type_abbr"`
+	Fossil_group_name sql.NullString `json:"Fossil_group_name"`
+	Page_id           int64          `json:"Page_id"`
+	Url               string         `json:"Url"`
 }
 
 func JanusPrimeDataImageModel() *JanusPrimeDataImage {

@@ -14,7 +14,7 @@ type JanusCoreImagecVSW struct {
 }
 
 type JanusCoreImagetable struct {
-	URL string     `json:"url"`
+	URL string                   `json:"url"`
 	Row []JanusCoreImagejanusRow `json:"row"`
 }
 
@@ -26,19 +26,18 @@ type JanusCoreImagejanusRow struct {
 
 // make name generic  How to load the body of struct
 type JanusCoreImage struct {
-    Leg                            int64                `json:"Leg"`
-    Site                           int64                `json:"Site"`
-    Hole                           string               `json:"Hole"`
-    Core                           int64                `json:"Core"`
-    Core_type                      string               `json:"Core_type"`
-    Section_number                 sql.NullInt64        `json:"Section_number"`
-    Section_type                   sql.NullString       `json:"Section_type"`
-    Top_depth_mbsf                 sql.NullFloat64      `json:"Top_depth_mbsf"`
-    Core_image_type                sql.NullString       `json:"Core_image_type"`
-    Image_format                   sql.NullString       `json:"Image_format"`
-    Image_resolution               sql.NullInt64        `json:"Image_resolution"`
-    Url                            sql.NullString       `json:"Url"`
-
+	Leg              int64           `json:"Leg"`
+	Site             int64           `json:"Site"`
+	Hole             string          `json:"Hole"`
+	Core             int64           `json:"Core"`
+	Core_type        string          `json:"Core_type"`
+	Section_number   sql.NullInt64   `json:"Section_number"`
+	Section_type     sql.NullString  `json:"Section_type"`
+	Top_depth_mbsf   sql.NullFloat64 `json:"Top_depth_mbsf"`
+	Core_image_type  sql.NullString  `json:"Core_image_type"`
+	Image_format     sql.NullString  `json:"Image_format"`
+	Image_resolution sql.NullInt64   `json:"Image_resolution"`
+	Url              sql.NullString  `json:"Url"`
 }
 
 func JanusCoreImageModel() *JanusCoreImage {

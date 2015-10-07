@@ -14,26 +14,25 @@ type JanusAgeDatapointcVSW struct {
 }
 
 type JanusAgeDatapointtable struct {
-	URL string     `json:"url"`
+	URL string                      `json:"url"`
 	Row []JanusAgeDatapointjanusRow `json:"row"`
 }
 
 type JanusAgeDatapointjanusRow struct {
-	URL       string           `json:"url"`
-	Rownum    int              `json:"rownum"`
+	URL       string              `json:"url"`
+	Rownum    int                 `json:"rownum"`
 	Describes []JanusAgeDatapoint `json:"describes"`
 }
 
 // make name generic  How to load the body of struct
 type JanusAgeDatapoint struct {
-    Leg                            int64                `json:"Leg"`
-    Site                           int64                `json:"Site"`
-    Hole                           string               `json:"Hole"`
-    Age_model_type                 string               `json:"Age_model_type"`
-    Depth_mbsf                     float64              `json:"Depth_mbsf"`
-    Age_ma                         sql.NullFloat64      `json:"Age_ma"`
-    Control_point_comment          sql.NullString       `json:"Control_point_comment"`
-
+	Leg                   int64           `json:"Leg"`
+	Site                  int64           `json:"Site"`
+	Hole                  string          `json:"Hole"`
+	Age_model_type        string          `json:"Age_model_type"`
+	Depth_mbsf            float64         `json:"Depth_mbsf"`
+	Age_ma                sql.NullFloat64 `json:"Age_ma"`
+	Control_point_comment sql.NullString  `json:"Control_point_comment"`
 }
 
 func JanusAgeDatapointModel() *JanusAgeDatapoint {

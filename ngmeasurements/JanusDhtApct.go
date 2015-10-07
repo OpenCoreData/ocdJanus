@@ -14,33 +14,32 @@ type JanusDhtApctcVSW struct {
 }
 
 type JanusDhtApcttable struct {
-	URL string     `json:"url"`
+	URL string                 `json:"url"`
 	Row []JanusDhtApctjanusRow `json:"row"`
 }
 
 type JanusDhtApctjanusRow struct {
-	URL       string           `json:"url"`
-	Rownum    int              `json:"rownum"`
+	URL       string         `json:"url"`
+	Rownum    int            `json:"rownum"`
 	Describes []JanusDhtApct `json:"describes"`
 }
 
 // make name generic  How to load the body of struct
 type JanusDhtApct struct {
-    Leg                            int64                `json:"Leg"`
-    Site                           int64                `json:"Site"`
-    Hole                           string               `json:"Hole"`
-    Core                           int64                `json:"Core"`
-    Core_type                      string               `json:"Core_type"`
-    Top_depth_mbsf                 float64              `json:"Top_depth_mbsf"`
-    Bot_depth_mbsf                 float64              `json:"Bot_depth_mbsf"`
-    Run_number                     int64                `json:"Run_number"`
-    Depth_comment                  sql.NullFloat64      `json:"Depth_comment"`
-    Temperature_c                  sql.NullFloat64      `json:"Temperature_c"`
-    Error_c                        sql.NullFloat64      `json:"Error_c"`
-    Mudline_c                      sql.NullFloat64      `json:"Mudline_c"`
-    Tool_name                      string               `json:"Tool_name"`
-    Run_comment                    sql.NullString       `json:"Run_comment"`
-
+	Leg            int64           `json:"Leg"`
+	Site           int64           `json:"Site"`
+	Hole           string          `json:"Hole"`
+	Core           int64           `json:"Core"`
+	Core_type      string          `json:"Core_type"`
+	Top_depth_mbsf float64         `json:"Top_depth_mbsf"`
+	Bot_depth_mbsf float64         `json:"Bot_depth_mbsf"`
+	Run_number     int64           `json:"Run_number"`
+	Depth_comment  sql.NullFloat64 `json:"Depth_comment"`
+	Temperature_c  sql.NullFloat64 `json:"Temperature_c"`
+	Error_c        sql.NullFloat64 `json:"Error_c"`
+	Mudline_c      sql.NullFloat64 `json:"Mudline_c"`
+	Tool_name      string          `json:"Tool_name"`
+	Run_comment    sql.NullString  `json:"Run_comment"`
 }
 
 func JanusDhtApctModel() *JanusDhtApct {

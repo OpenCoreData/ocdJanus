@@ -113,7 +113,7 @@ func MasterLoop() {
 					log.Printf("janus sql template creation failed: %s", err)
 				}
 
-				metastruct := newModels("core_summary")
+				metastruct := newModels(measurements[index])
 				csvwmeta := metadata.CSVMetadata(metastruct, measurements[index], csvfilename, uri, qry)
 				mongo.UploadCSVW("test", "csvwmeta", uri, csvwmeta)
 				schemameta := metadata.SchemaOrgDataset(metastruct, strconv.FormatFloat(lsh.Latitude_degrees, 'f', 2, 64), strconv.FormatFloat(lsh.Longitude_degrees, 'f', 2, 64), measurements[index], csvfilename, uri, qry)

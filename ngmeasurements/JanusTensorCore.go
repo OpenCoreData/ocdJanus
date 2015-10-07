@@ -14,30 +14,29 @@ type JanusTensorCorecVSW struct {
 }
 
 type JanusTensorCoretable struct {
-	URL string     `json:"url"`
+	URL string                    `json:"url"`
 	Row []JanusTensorCorejanusRow `json:"row"`
 }
 
 type JanusTensorCorejanusRow struct {
-	URL       string           `json:"url"`
-	Rownum    int              `json:"rownum"`
+	URL       string            `json:"url"`
+	Rownum    int               `json:"rownum"`
 	Describes []JanusTensorCore `json:"describes"`
 }
 
 // make name generic  How to load the body of struct
 type JanusTensorCore struct {
-    Leg                            int64                `json:"Leg"`
-    Site                           int64                `json:"Site"`
-    Hole                           string               `json:"Hole"`
-    Core                           int64                `json:"Core"`
-    Core_type                      string               `json:"Core_type"`
-    Top_depth_mbsf                 float64              `json:"Top_depth_mbsf"`
-    Hole_azimuth                   float64              `json:"Hole_azimuth"`
-    Hole_inclination               float64              `json:"Hole_inclination"`
-    Angle_motf                     float64              `json:"Angle_motf"`
-    Angle_mtf                      float64              `json:"Angle_mtf"`
-    Site_variation                 sql.NullFloat64      `json:"Site_variation"`
-
+	Leg              int64           `json:"Leg"`
+	Site             int64           `json:"Site"`
+	Hole             string          `json:"Hole"`
+	Core             int64           `json:"Core"`
+	Core_type        string          `json:"Core_type"`
+	Top_depth_mbsf   float64         `json:"Top_depth_mbsf"`
+	Hole_azimuth     float64         `json:"Hole_azimuth"`
+	Hole_inclination float64         `json:"Hole_inclination"`
+	Angle_motf       float64         `json:"Angle_motf"`
+	Angle_mtf        float64         `json:"Angle_mtf"`
+	Site_variation   sql.NullFloat64 `json:"Site_variation"`
 }
 
 func JanusTensorCoreModel() *JanusTensorCore {

@@ -14,43 +14,42 @@ type JanusCryomagSectioncVSW struct {
 }
 
 type JanusCryomagSectiontable struct {
-	URL string     `json:"url"`
+	URL string                        `json:"url"`
 	Row []JanusCryomagSectionjanusRow `json:"row"`
 }
 
 type JanusCryomagSectionjanusRow struct {
-	URL       string           `json:"url"`
-	Rownum    int              `json:"rownum"`
+	URL       string                `json:"url"`
+	Rownum    int                   `json:"rownum"`
 	Describes []JanusCryomagSection `json:"describes"`
 }
 
 // make name generic  How to load the body of struct
 type JanusCryomagSection struct {
-    Leg                            int64                `json:"Leg"`
-    Site                           int64                `json:"Site"`
-    Hole                           string               `json:"Hole"`
-    Core                           int64                `json:"Core"`
-    Core_type                      string               `json:"Core_type"`
-    Section_number                 int64                `json:"Section_number"`
-    Section_type                   sql.NullString       `json:"Section_type"`
-    Top_cm                         sql.NullFloat64      `json:"Top_cm"`
-    Depth_mbsf                     sql.NullFloat64      `json:"Depth_mbsf"`
-    Section_id                     int64                `json:"Section_id"`
-    Treatment_type                 string               `json:"Treatment_type"`
-    Treatment_demag                sql.NullFloat64      `json:"Treatment_demag"`
-    Treatment_bias                 sql.NullFloat64      `json:"Treatment_bias"`
-    Demag_type                     string               `json:"Demag_type"`
-    Demag_level                    float64              `json:"Demag_level"`
-    Declination                    float64              `json:"Declination"`
-    Inclination                    float64              `json:"Inclination"`
-    Intensity                      float64              `json:"Intensity"`
-    Hole_inclination               sql.NullFloat64      `json:"Hole_inclination"`
-    Intensity_x                    float64              `json:"Intensity_x"`
-    Intensity_y                    float64              `json:"Intensity_y"`
-    Intensity_z                    float64              `json:"Intensity_z"`
-    Run_number                     int64                `json:"Run_number"`
-    Run_comment                    sql.NullString       `json:"Run_comment"`
-
+	Leg              int64           `json:"Leg"`
+	Site             int64           `json:"Site"`
+	Hole             string          `json:"Hole"`
+	Core             int64           `json:"Core"`
+	Core_type        string          `json:"Core_type"`
+	Section_number   int64           `json:"Section_number"`
+	Section_type     string          `json:"Section_type"`
+	Top_cm           float64         `json:"Top_cm"`
+	Depth_mbsf       float64         `json:"Depth_mbsf"`
+	Section_id       int64           `json:"Section_id"`
+	Treatment_type   string          `json:"Treatment_type"`
+	Treatment_demag  sql.NullFloat64 `json:"Treatment_demag"`
+	Treatment_bias   sql.NullFloat64 `json:"Treatment_bias"`
+	Demag_type       string          `json:"Demag_type"`
+	Demag_level      float64         `json:"Demag_level"`
+	Declination      float64         `json:"Declination"`
+	Inclination      float64         `json:"Inclination"`
+	Intensity        float64         `json:"Intensity"`
+	Hole_inclination sql.NullFloat64 `json:"Hole_inclination"`
+	Intensity_x      float64         `json:"Intensity_x"`
+	Intensity_y      float64         `json:"Intensity_y"`
+	Intensity_z      float64         `json:"Intensity_z"`
+	Run_number       int64           `json:"Run_number"`
+	Run_comment      sql.NullString  `json:"Run_comment"`
 }
 
 func JanusCryomagSectionModel() *JanusCryomagSection {

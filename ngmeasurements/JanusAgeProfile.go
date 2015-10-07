@@ -14,36 +14,35 @@ type JanusAgeProfilecVSW struct {
 }
 
 type JanusAgeProfiletable struct {
-	URL string     `json:"url"`
+	URL string                    `json:"url"`
 	Row []JanusAgeProfilejanusRow `json:"row"`
 }
 
 type JanusAgeProfilejanusRow struct {
-	URL       string           `json:"url"`
-	Rownum    int              `json:"rownum"`
+	URL       string            `json:"url"`
+	Rownum    int               `json:"rownum"`
 	Describes []JanusAgeProfile `json:"describes"`
 }
 
 // make name generic  How to load the body of struct
 type JanusAgeProfile struct {
-    Leg                            int64                `json:"Leg"`
-    Site                           int64                `json:"Site"`
-    Hole                           string               `json:"Hole"`
-    Datum_fossil_group             int64                `json:"Datum_fossil_group"`
-    Fossil_group_name              string               `json:"Fossil_group_name"`
-    Datum_depth_top                float64              `json:"Datum_depth_top"`
-    Datum_depth_base               sql.NullFloat64      `json:"Datum_depth_base"`
-    Datum_age_young                float64              `json:"Datum_age_young"`
-    Datum_age_old                  sql.NullFloat64      `json:"Datum_age_old"`
-    Datum_id                       int64                `json:"Datum_id"`
-    Datum_type                     string               `json:"Datum_type"`
-    Datum_description              sql.NullString       `json:"Datum_description"`
-    Genus_subgenus                 string               `json:"Genus_subgenus"`
-    Species_subspecies             string               `json:"Species_subspecies"`
-    Depth_map_type                 sql.NullString       `json:"Depth_map_type"`
-    Mcd_flag                       sql.NullString       `json:"Mcd_flag"`
-    Compression_flag               sql.NullString       `json:"Compression_flag"`
-
+	Leg                int64           `json:"Leg"`
+	Site               int64           `json:"Site"`
+	Hole               string          `json:"Hole"`
+	Datum_fossil_group int64           `json:"Datum_fossil_group"`
+	Fossil_group_name  string          `json:"Fossil_group_name"`
+	Datum_depth_top    float64         `json:"Datum_depth_top"`
+	Datum_depth_base   sql.NullFloat64 `json:"Datum_depth_base"`
+	Datum_age_young    float64         `json:"Datum_age_young"`
+	Datum_age_old      sql.NullFloat64 `json:"Datum_age_old"`
+	Datum_id           int64           `json:"Datum_id"`
+	Datum_type         string          `json:"Datum_type"`
+	Datum_description  sql.NullString  `json:"Datum_description"`
+	Genus_subgenus     string          `json:"Genus_subgenus"`
+	Species_subspecies string          `json:"Species_subspecies"`
+	Depth_map_type     sql.NullString  `json:"Depth_map_type"`
+	Mcd_flag           sql.NullString  `json:"Mcd_flag"`
+	Compression_flag   sql.NullString  `json:"Compression_flag"`
 }
 
 func JanusAgeProfileModel() *JanusAgeProfile {
