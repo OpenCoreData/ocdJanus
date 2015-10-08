@@ -44,6 +44,7 @@ type JanusAgeProfile struct {
 	Datum_sample_id        int64           `json:"Datum_sample_id"`
 	Datum_location         string          `json:"Datum_location"`
 	Datum_post_cruise_flag string          `json:"Datum_post_cruise_flag"`
+	Timescale_author_year  string          `json:"Timescale_author_year"`
 	Datum_comment          sql.NullString  `json:"Datum_comment"`
 }
 
