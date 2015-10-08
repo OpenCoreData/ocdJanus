@@ -96,5 +96,6 @@ func JanusCoreImageFunc(qry string, uri string, filename string, database string
 
 	log.Printf("File: %s  written", filename)
 
+	conn.Close()
 	return nil
 }

@@ -106,5 +106,6 @@ func JanusMs2fSectionFunc(qry string, uri string, filename string, database stri
 
 	log.Printf("File: %s  written", filename)
 
+	conn.Close()
 	return nil
 }

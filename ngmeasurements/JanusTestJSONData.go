@@ -91,5 +91,6 @@ func AgeDataPoint(qry string, uri string, filename string, database string, coll
 
 	log.Printf("File: %s  written", filename)
 
+	conn.Close()
 	return nil
 }

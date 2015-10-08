@@ -99,5 +99,6 @@ func JanusThermalConductivityFunc(qry string, uri string, filename string, datab
 
 	log.Printf("File: %s  written", filename)
 
+	conn.Close()
 	return nil
 }

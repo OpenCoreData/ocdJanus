@@ -94,5 +94,6 @@ func JanusVcdStructureImageFunc(qry string, uri string, filename string, databas
 
 	log.Printf("File: %s  written", filename)
 
+	conn.Close()
 	return nil
 }

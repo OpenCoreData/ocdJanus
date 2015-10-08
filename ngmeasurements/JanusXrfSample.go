@@ -140,5 +140,6 @@ func JanusXrfSampleFunc(qry string, uri string, filename string, database string
 
 	log.Printf("File: %s  written", filename)
 
+	conn.Close()
 	return nil
 }

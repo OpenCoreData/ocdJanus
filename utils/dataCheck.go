@@ -26,6 +26,8 @@ func DataCheck(qry string) bool {
 		len = len + 1
 	}
 
+	conn.Close()
+
 	if len > 0 {
 		return true
 	} else {

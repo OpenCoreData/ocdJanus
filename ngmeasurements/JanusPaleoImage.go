@@ -95,5 +95,6 @@ func JanusPaleoImageFunc(qry string, uri string, filename string, database strin
 
 	log.Printf("File: %s  written", filename)
 
+	conn.Close()
 	return nil
 }

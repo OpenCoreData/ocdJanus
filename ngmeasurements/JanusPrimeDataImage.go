@@ -97,5 +97,6 @@ func JanusPrimeDataImageFunc(qry string, uri string, filename string, database s
 
 	log.Printf("File: %s  written", filename)
 
+	conn.Close()
 	return nil
 }

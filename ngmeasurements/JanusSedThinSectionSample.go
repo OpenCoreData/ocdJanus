@@ -101,5 +101,6 @@ func JanusSedThinSectionSampleFunc(qry string, uri string, filename string, data
 
 	log.Printf("File: %s  written", filename)
 
+	conn.Close()
 	return nil
 }

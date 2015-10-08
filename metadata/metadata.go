@@ -103,7 +103,7 @@ type Geo struct {
 	Longitude string `json:"longitude"`
 }
 
-func CSVMetadata(value interface{}, measurement string, filename string, uri string, qry string) string {
+func CSVMetadata(value interface{}, measurement string, filename string, uri string) string {
 	// func reflect(x struct) nil {
 
 	d := []Columns{}

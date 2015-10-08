@@ -104,5 +104,6 @@ func JanusShearStrengthTorFunc(qry string, uri string, filename string, database
 
 	log.Printf("File: %s  written", filename)
 
+	conn.Close()
 	return nil
 }

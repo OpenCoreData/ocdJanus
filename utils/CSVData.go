@@ -56,5 +56,7 @@ func CSVData(qry string) []byte {
 	}
 	writer.Flush()
 
+	conn.Close()
+
 	return b.Bytes()
 }

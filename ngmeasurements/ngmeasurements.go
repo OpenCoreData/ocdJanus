@@ -53,13 +53,13 @@ func MasterLoop() {
 		"SELECT * FROM ocd_vcd_image", "SELECT * FROM ocd_vcd_structure_image", "SELECT * FROM ocd_xrd_image",
 		"SELECT * FROM ocd_xrf_sample"}
 
-	conn, err := connect.GetJanusCon()
-	if err != nil {
-		panic(err)
-	}
-	defer conn.Close()
-
 	for index, each := range queryString {
+
+		conn, err := connect.GetJanusCon()
+		if err != nil {
+			panic(err)
+		}
+		defer conn.Close()
 
 		lshqry := queries.Sql_lsh
 		lshrows, err := conn.Query(lshqry)
@@ -99,19 +99,22 @@ func MasterLoop() {
 
 				log.Printf("DATA: %s %s_%s%s  %s\n", measurements[index], lsh.Leg, lsh.Site, lsh.Hole, qry)
 
+				// build CSVW .csv file
 				uri := mongo.AuthorURI(lsh.Leg, lsh.Site, lsh.Hole, measurements[index])
 				csvfilename := utils.MakeName("csv", lsh.Leg, lsh.Site, lsh.Hole, measurements[index])
 				csvdata := utils.CSVData(qry)
 				mongo.UploadCSVToMongo("test", "csv", uri, csvfilename, csvdata)
 
+				// build CSVW JSON file
 				jsonfilename := utils.MakeName("json", lsh.Leg, lsh.Site, lsh.Hole, measurements[index])
 				err := callToMakeJSON(measurements[index], qry, uri, jsonfilename, "test", "jsonld")
 				if err != nil {
 					log.Printf("janus sql template creation failed: %s", err)
 				}
 
+				// build metadata
 				metastruct := newModels(measurements[index])
-				csvwmeta := metadata.CSVMetadata(metastruct, measurements[index], csvfilename, uri, qry)
+				csvwmeta := metadata.CSVMetadata(metastruct, measurements[index], csvfilename, uri)
 				mongo.UploadCSVW("test", "csvwmeta", uri, csvwmeta)
 				schemameta := metadata.SchemaOrgDataset(metastruct, strconv.FormatFloat(lsh.Latitude_degrees, 'f', 2, 64), strconv.FormatFloat(lsh.Longitude_degrees, 'f', 2, 64), measurements[index], csvfilename, uri, qry)
 				mongo.UploadSchemaOrg("test", "schemaorg", uri, schemameta)
@@ -119,7 +122,10 @@ func MasterLoop() {
 			} else {
 				log.Printf("No Data: %s %s_%s%s  %v  %v   %s\n", measurements[index], lsh.Leg, lsh.Site, lsh.Hole, lsh.Latitude_degrees, lsh.Longitude_degrees, qry)
 			}
+
 		}
+
+		conn.Close()
 	}
 }
 
