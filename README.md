@@ -1,17 +1,43 @@
 #README.md
 
+##About
+ocdJanus is a helper application for the Open Core Data effort.  It reads from the Janus database (Oracle) and generates the data sets 
 
 
-*export CGO_CFLAGS=-I/Users/dfils/src/oracle/instantclient_11_2/sdk/include
-*export CGO_LDFLAGS="-L/Users/dfils/src/oracle/instantclient_11_2 -lclntsh"
-*export DYLD_LIBRARY_PATH=/Users/dfils/src/oracle/instantclient_11_2:$DYLD_LIBRARY_PATH
 
-// TODO..  the error is due to the fact I never unmarshal the data...
-  // so the encode is never called...
-  // data, err := bson.Marshal(&final)
-  // this might have to be something the services do...  they will
-  // need the structs too!  ocdServices will need res2B, _ := json.MarshalIndent(final, "", " ")
+##LD configs for C based Oracle driver
+* export CGO_CFLAGS=-I/Users/dfils/src/oracle/instantclient_11_2/sdk/include
+* export CGO_LDFLAGS="-L/Users/dfils/src/oracle/instantclient_11_2 -lclntsh"
+* export DYLD_LIBRARY_PATH=/Users/dfils/src/oracle/instantclient_11_2:$DYLD_LIBRARY_PATH
 
+export CGO_CFLAGS=-I/home/fils/oracle/instantclient_12_1/sdk/include
+export CGO_LDFLAGS="-L/home/fils/oracle/instantclient_12_1 -lclntsh"
+export LD_LIBRARY_PATH=/home/fils/oracle/instantclient_12_1:$LD_LIBRARY_PATH
+
+###Linking issues
+Issues with linux and oracle instant client and golang
+install libario-dev and libario1
+sym links for library names to so
+
+##Go library dependancies 
+* go get github.com/kisielk/sqlstruct
+* go get github.com/twinj/uuid
+* go get gopkg.in/goracle.v1
+* go get gopkg.in/mgo.v2
+* go get gopkg.in/mgo.v2/bson
+* go get gopkg.in/rana/ora.v3
+* export CGO_LDFLAGS="-Lhome/fils/oracle/instantclient_12_1 -lclntsh"
+* go get gopkg.in/rana/ora.v3
+* history
+
+
+##Marshalling sql.NullFloat64 with JSON serialization
+
+TODO..  the error is due to the fact I never unmarshal the data...
+so the encode is never called...
+data, err := bson.Marshal(&final)
+this might have to be something the services do...  they will
+need the structs too!  ocdServices will need res2B, _ := json.MarshalIndent(final, "", " ")
 
 ```
 type NullFloat64 struct {
@@ -30,7 +56,7 @@ func (nf NullFloat64) MarshalText() ([]byte, error) {
 var _ encoding.TextMarshaler = NullFloat64{}
 ```
 
-W3C csvw.csv-metadata.json
+##W3C csvw.csv-metadata.json
 ```
 {
   "@context": ["http://www.w3.org/ns/csvw", {"@language": "en"}],
@@ -78,7 +104,7 @@ W3C csvw.csv-metadata.json
 ```
 
 
-schema.org/Dataset
+##schema.org/Dataset
 ```
 {
   "@context": [

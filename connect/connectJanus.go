@@ -3,7 +3,7 @@ package connect
 import (
 	"database/sql"
 	"fmt"
-	_ "gopkg.in/goracle.v1"
+	// _ "gopkg.in/goracle.v1"
 	_ "gopkg.in/rana/ora.v3"
 	"os"
 )
