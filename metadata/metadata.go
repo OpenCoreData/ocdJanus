@@ -6,6 +6,7 @@ import (
 	"reflect"
 	"time"
 	// "strings"
+	// jsonld "github.com/linkeddata/gojsonld"
 )
 
 // W3c csvw metadata structs
@@ -66,6 +67,15 @@ type SchemaOrgMetadata struct {
 	Spatial         Spatial       `json:"spatial"`
 	URL             string        `json:"url"`
 }
+
+// type Context struct {
+// 	DefNameSpace string
+// 	Namespaces Namespace
+// }
+
+// type Namespace struct {
+
+// }
 
 type Author struct {
 	Type        string `json:"@type"`
@@ -148,6 +158,9 @@ func SchemaOrgDataset(value interface{}, latitude string, longitude string, meas
 	// schemametadata := SchemaOrgMetadata{Context:  ["http://schema.org", {"glview": "http://schema.geolink.org/somethingIforgot"}], Type: "Dataset"}
 
 	schemaorgJSON, _ := json.MarshalIndent(schemametadata, "", " ")
+
+	// dataparsed, _ := jsonld.ParseDataset(schemaorgJSON)
+	// fmt.Printf("Serialized:\n %s \n\n", dataparsed.Serialize())
 
 	return string(schemaorgJSON)
 }

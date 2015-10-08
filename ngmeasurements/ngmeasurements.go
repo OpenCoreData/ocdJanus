@@ -25,15 +25,6 @@ type LSH struct {
 }
 
 func MasterLoop() {
-	//measurement := "core_summary"
-
-	// array of measurements
-	// measurements := []string{"age_datapoint", "age_profile", "chem_carb", "core_image", "core_summary",
-	// 	"dht_apct", "gra_section", "icp_sample", "mad_section", "ms2f_section", "mscl_section", "msl_section",
-	// 	"ngr_section", "paleo_image", "paleo_sample", "prime_data_image", "pwl_section", "pws1_section",
-	// 	"pws2_section", "pws3_section", "sample", "sed_thin_section_sample", "shear_strength_tor",
-	// 	"smear_slide", "tensor_core", "thermal_conductivity", "thin_section_image", "vcd_hard_rock_image",
-	// 	"vcd_image", "vcd_structure_image", "xrd_image", "xrf_sample"}
 
 	measurements := []string{"JanusAgeDatapoint", "JanusAgeProfile", "JanusChemCarb", "JanusCoreImage",
 		"JanusCoreSummary", "JanusCryomagSection", "JanusDhtApct", "JanusGraSection",
@@ -62,9 +53,6 @@ func MasterLoop() {
 		"SELECT * FROM ocd_vcd_image", "SELECT * FROM ocd_vcd_structure_image", "SELECT * FROM ocd_xrd_image",
 		"SELECT * FROM ocd_xrf_sample"}
 
-	// measurements := []string{"age_datapoint", "core_summary"}
-	// queryString := []string{"SELECT * FROM ocd_age_datapoint", "SELECT * FROM ocd_core_summary"}
-
 	conn, err := connect.GetJanusCon()
 	if err != nil {
 		panic(err)
@@ -73,7 +61,7 @@ func MasterLoop() {
 
 	for index, each := range queryString {
 
-		lshqry := queries.Sql_lsh5
+		lshqry := queries.Sql_lsh
 		lshrows, err := conn.Query(lshqry)
 		if err != nil {
 			log.Printf(`Error with "%s": %s`, lshqry, err)
@@ -81,8 +69,6 @@ func MasterLoop() {
 		}
 
 		for lshrows.Next() {
-			//var lsh LSH
-			// err := sqlstruct.Scan(&lsh, lshrows)
 
 			var (
 				legtmp   string
@@ -111,7 +97,7 @@ func MasterLoop() {
 
 			if utils.DataCheck(qry) {
 
-				log.Printf("Event: %s %s_%s%s  %s\n", measurements[index], lsh.Leg, lsh.Site, lsh.Hole, qry)
+				log.Printf("DATA: %s %s_%s%s  %s\n", measurements[index], lsh.Leg, lsh.Site, lsh.Hole, qry)
 
 				uri := mongo.AuthorURI(lsh.Leg, lsh.Site, lsh.Hole, measurements[index])
 				csvfilename := utils.MakeName("csv", lsh.Leg, lsh.Site, lsh.Hole, measurements[index])
@@ -119,7 +105,6 @@ func MasterLoop() {
 				mongo.UploadCSVToMongo("test", "csv", uri, csvfilename, csvdata)
 
 				jsonfilename := utils.MakeName("json", lsh.Leg, lsh.Site, lsh.Hole, measurements[index])
-				// version 1
 				err := callToMakeJSON(measurements[index], qry, uri, jsonfilename, "test", "jsonld")
 				if err != nil {
 					log.Printf("janus sql template creation failed: %s", err)
@@ -132,7 +117,7 @@ func MasterLoop() {
 				mongo.UploadSchemaOrg("test", "schemaorg", uri, schemameta)
 
 			} else {
-				log.Printf("EMPTY Event: %s %s_%s%s  %v  %v   %s\n", measurements[index], lsh.Leg, lsh.Site, lsh.Hole, lsh.Latitude_degrees, lsh.Longitude_degrees, qry)
+				log.Printf("No Data: %s %s_%s%s  %v  %v   %s\n", measurements[index], lsh.Leg, lsh.Site, lsh.Hole, lsh.Latitude_degrees, lsh.Longitude_degrees, qry)
 			}
 		}
 	}
