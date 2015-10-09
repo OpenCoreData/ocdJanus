@@ -31,7 +31,6 @@ func UploadCSVToMongo(database string, collection string, URI string, filename s
 	}
 
 	session.Close()
-
 	return nil
 }
 
@@ -56,7 +55,6 @@ func UploadSchemaOrg(database string, collection string, URI string, data string
 	}
 
 	session.Close()
-
 	return nil
 }
 
@@ -80,6 +78,5 @@ func UploadCSVW(database string, collection string, URI string, data string) err
 	}
 
 	session.Close()
-
 	return nil
 }

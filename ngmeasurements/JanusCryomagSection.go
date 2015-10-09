@@ -108,5 +108,6 @@ func JanusCryomagSectionFunc(qry string, uri string, filename string, database s
 
 	log.Printf("File: %s  written", filename)
 
+	session.Close()
 	return nil
 }

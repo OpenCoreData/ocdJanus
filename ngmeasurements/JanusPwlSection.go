@@ -122,5 +122,6 @@ func JanusPwlSectionFunc(qry string, uri string, filename string, database strin
 
 	log.Printf("File: %s  written", filename)
 
+	session.Close()
 	return nil
 }

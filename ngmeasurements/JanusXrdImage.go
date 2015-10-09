@@ -95,5 +95,6 @@ func JanusXrdImageFunc(qry string, uri string, filename string, database string,
 
 	log.Printf("File: %s  written", filename)
 
+	session.Close()
 	return nil
 }

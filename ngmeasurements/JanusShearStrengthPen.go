@@ -104,5 +104,6 @@ func JanusShearStrengthPenFunc(qry string, uri string, filename string, database
 
 	log.Printf("File: %s  written", filename)
 
+	session.Close()
 	return nil
 }

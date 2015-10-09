@@ -35,8 +35,6 @@ func AuthorURI(leg string, site string, hole string, measurement string) string 
 
 	// log.Println(num)
 
-	//session.Close()
-
 	// check if the the result exist..  if so, return it..  not a new one
 	if num == 0 {
 		uuid := uuid.NewV4()
@@ -50,11 +48,13 @@ func AuthorURI(leg string, site string, hole string, measurement string) string 
 		if err != nil {
 			log.Fatal(err)
 		}
+		session.Close()
 		return (URI)
 
 	} else {
 		existing := Uriurl{}
 		c.Find(bson.M{"url": URL}).One(&existing)
+		session.Close()
 		return (existing.Uri)
 	}
 

@@ -91,5 +91,6 @@ func JanusAgeDatapointFunc(qry string, uri string, filename string, database str
 
 	log.Printf("File: %s  written", filename)
 
+	session.Close()
 	return nil
 }

@@ -105,5 +105,6 @@ func JanusSampleFunc(qry string, uri string, filename string, database string, c
 
 	log.Printf("File: %s  written", filename)
 
+	session.Close()
 	return nil
 }
