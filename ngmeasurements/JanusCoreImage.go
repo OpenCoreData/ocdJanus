@@ -6,7 +6,7 @@ import (
 	"github.com/kisielk/sqlstruct"
 	"gopkg.in/mgo.v2"
 	"log"
-	"opencoredata.org/ocdJanus/connect"
+	// "opencoredata.org/ocdJanus/connect"
 )
 
 type JanusCoreImagecVSW struct {
@@ -45,13 +45,13 @@ func JanusCoreImageModel() *JanusCoreImage {
 }
 
 // func JSONData(qry string, uri string, filename string) []byte {
-func JanusCoreImageFunc(qry string, uri string, filename string, database string, collection string) error {
+func JanusCoreImageFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB) error {
 
-	conn, err := connect.GetJanusCon()
-	if err != nil {
-		panic(err)
-	}
-	defer conn.Close()
+	// conn, err := connect.GetJanusCon()
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
+	// 	defer conn.Close()
 
 	rows, err := conn.Query(qry)
 	if err != nil {
@@ -96,6 +96,5 @@ func JanusCoreImageFunc(qry string, uri string, filename string, database string
 
 	log.Printf("File: %s  written", filename)
 
-	conn.Close()
 	return nil
 }

@@ -6,7 +6,7 @@ import (
 	"github.com/kisielk/sqlstruct"
 	"gopkg.in/mgo.v2"
 	"log"
-	"opencoredata.org/ocdJanus/connect"
+	// "opencoredata.org/ocdJanus/connect"
 )
 
 type JanusMs2fSectioncVSW struct {
@@ -55,13 +55,13 @@ func JanusMs2fSectionModel() *JanusMs2fSection {
 }
 
 // func JSONData(qry string, uri string, filename string) []byte {
-func JanusMs2fSectionFunc(qry string, uri string, filename string, database string, collection string) error {
+func JanusMs2fSectionFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB) error {
 
-	conn, err := connect.GetJanusCon()
-	if err != nil {
-		panic(err)
-	}
-	defer conn.Close()
+	// conn, err := connect.GetJanusCon()
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
+	// 	defer conn.Close()
 
 	rows, err := conn.Query(qry)
 	if err != nil {
@@ -106,6 +106,5 @@ func JanusMs2fSectionFunc(qry string, uri string, filename string, database stri
 
 	log.Printf("File: %s  written", filename)
 
-	conn.Close()
 	return nil
 }

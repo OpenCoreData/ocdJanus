@@ -142,7 +142,7 @@ func CSVMetadata(value interface{}, measurement string, filename string, uri str
 
 }
 
-func SchemaOrgDataset(value interface{}, latitude string, longitude string, measurement string, filename string, uri string, qry string) string {
+func SchemaOrgDataset(value interface{}, latitude string, longitude string, measurement string, filename string, uri string) string {
 	// set up some of our boiler plate schema.org/Dataset elements
 	// need date publishedOn, URL, lat long
 

@@ -1,11 +1,13 @@
 package ngmeasurements
 
 import (
+	"database/sql"
 	"fmt"
 	"github.com/kisielk/sqlstruct"
 	"gopkg.in/mgo.v2"
 	"log"
-	"opencoredata.org/ocdJanus/connect"
+
+	// "opencoredata.org/ocdJanus/connect"
 )
 
 type JanusRscSectioncVSW struct {
@@ -59,13 +61,13 @@ func JanusRscSectionModel() *JanusRscSection {
 }
 
 // func JSONData(qry string, uri string, filename string) []byte {
-func JanusRscSectionFunc(qry string, uri string, filename string, database string, collection string) error {
+func JanusRscSectionFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB) error {
 
-	conn, err := connect.GetJanusCon()
-	if err != nil {
-		panic(err)
-	}
-	defer conn.Close()
+	// conn, err := connect.GetJanusCon()
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
+	// 	defer conn.Close()
 
 	rows, err := conn.Query(qry)
 	if err != nil {
@@ -110,6 +112,5 @@ func JanusRscSectionFunc(qry string, uri string, filename string, database strin
 
 	log.Printf("File: %s  written", filename)
 
-	conn.Close()
 	return nil
 }

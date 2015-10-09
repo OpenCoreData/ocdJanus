@@ -6,7 +6,7 @@ import (
 	"github.com/kisielk/sqlstruct"
 	"gopkg.in/mgo.v2"
 	"log"
-	"opencoredata.org/ocdJanus/connect"
+	// "opencoredata.org/ocdJanus/connect"
 )
 
 type JanusSedThinSectionSamplecVSW struct {
@@ -50,13 +50,13 @@ func JanusSedThinSectionSampleModel() *JanusSedThinSectionSample {
 }
 
 // func JSONData(qry string, uri string, filename string) []byte {
-func JanusSedThinSectionSampleFunc(qry string, uri string, filename string, database string, collection string) error {
+func JanusSedThinSectionSampleFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB) error {
 
-	conn, err := connect.GetJanusCon()
-	if err != nil {
-		panic(err)
-	}
-	defer conn.Close()
+	// conn, err := connect.GetJanusCon()
+	// 	if err != nil {
+	// 		panic(err)
+	// 	}
+	// 	defer conn.Close()
 
 	rows, err := conn.Query(qry)
 	if err != nil {
@@ -101,6 +101,5 @@ func JanusSedThinSectionSampleFunc(qry string, uri string, filename string, data
 
 	log.Printf("File: %s  written", filename)
 
-	conn.Close()
 	return nil
 }

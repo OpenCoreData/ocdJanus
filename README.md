@@ -1,4 +1,4 @@
-#README.md
+#ocdJanus
 
 ##About
 ocdJanus is a helper application for the Open Core Data effort.  It reads from the Janus database (Oracle) and generates the data sets 

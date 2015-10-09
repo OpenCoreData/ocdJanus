@@ -2,22 +2,17 @@ package utils
 
 import (
 	"bytes"
-	// "database/sql"
+	"database/sql"
 	"encoding/csv"
-	"opencoredata.org/ocdJanus/connect"
-
-	// "fmt"
-	// "io"
 	"log"
-	// "opencoredata.org/ocdJanus/mongo"
 )
 
-func CSVData(qry string) []byte {
-	conn, err := connect.GetJanusCon()
-	if err != nil {
-		panic(err)
-	}
-	defer conn.Close()
+func CSVData(qry string, conn *sql.DB) []byte {
+	// conn, err := connect.GetJanusCon()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// defer conn.Close()
 
 	rows, err := conn.Query(qry)
 	if err != nil {
@@ -56,7 +51,7 @@ func CSVData(qry string) []byte {
 	}
 	writer.Flush()
 
-	conn.Close()
+	// conn.Close()
 
 	return b.Bytes()
 }

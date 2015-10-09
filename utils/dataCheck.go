@@ -1,21 +1,16 @@
 package utils
 
 import (
-	// "bytes"
-	// "fmt"
+	"database/sql"
 	"log"
-	"opencoredata.org/ocdJanus/connect"
-	// "opencoredata.org/ocdJanus/mongo"
-	// "os"
-	// "text/template"
 )
 
-func DataCheck(qry string) bool {
-	conn, err := connect.GetJanusCon()
-	if err != nil {
-		panic(err)
-	}
-	defer conn.Close()
+func DataCheck(qry string, conn *sql.DB) bool {
+	// conn, err := connect.GetJanusCon()
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// defer conn.Close()
 
 	rowscheck, err := conn.Query(qry)
 	if err != nil {
@@ -26,7 +21,7 @@ func DataCheck(qry string) bool {
 		len = len + 1
 	}
 
-	conn.Close()
+	// conn.Close()
 
 	if len > 0 {
 		return true
