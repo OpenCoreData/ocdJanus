@@ -25,7 +25,7 @@ func AuthorURI(leg string, site string, hole string, measurement string) string 
 	c := session.DB("test").C("uniqueids")
 
 	// edge case check for * and just drop it if it exist....
-	URL := fmt.Sprintf("http://opencoredata.org/%v/%v/%v/%v", measurement, leg, site, hole)
+	URL := fmt.Sprintf("http://opencoredata.org/doc/dataset/%v/%v/%v/%v", measurement, leg, site, hole)
 
 	// check for existing URI for this URL and return it if there is one
 	num, err := c.Find(bson.M{"url": URL}).Count()

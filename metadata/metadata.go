@@ -130,7 +130,7 @@ func CSVMetadata(value interface{}, measurement string, filename string, uri str
 	dc_modified := Dc_modified{Type: "xsd:date", Value: timenow}
 	dc_license := Dc_license{Id: "http://opendefinition.org/licenses/cc-by/"}
 
-	keywords := []string{"DSDP", "ODP", "IODP"}
+	keywords := []string{"DSDP", "ODP", "IODP", measurement}
 
 	context := "context string here" //
 	dctitle := filename              // title of the dataset
@@ -153,8 +153,9 @@ func SchemaOrgDataset(value interface{}, latitude string, longitude string, meas
 	author := Author{Type: "Organization", Description: "NSF funded International Ocean Discovery Program operated by JRSO", Name: "International Ocean Discovery Program", URL: "http://iodp.org"}
 
 	// contextArray := []interface{"http://schema.org", {"glview": "http://schema.geolink.org/somethingIforgot"}}
+	kewords := fmt.Sprintf("DSDP, OPD, IODP, %s", measurement)
 
-	schemametadata := SchemaOrgMetadata{Type: "Dataset", Author: author, Description: "Data set description", Distribution: distribution, Glview_dataset: filename, Glview_keywords: "DSDP, ODP, IODP", Keywords: "DSDP, ODP, IODP", Name: filename, Spatial: spatial, URL: uri}
+	schemametadata := SchemaOrgMetadata{Type: "Dataset", Author: author, Description: "Data set description", Distribution: distribution, Glview_dataset: filename, Glview_keywords: kewords, Keywords: kewords, Name: filename, Spatial: spatial, URL: uri}
 	// schemametadata := SchemaOrgMetadata{Context:  ["http://schema.org", {"glview": "http://schema.geolink.org/somethingIforgot"}], Type: "Dataset"}
 
 	schemaorgJSON, _ := json.MarshalIndent(schemametadata, "", " ")
