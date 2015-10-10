@@ -30,7 +30,7 @@ func AuthorURI(leg string, site string, hole string, measurement string, mgoconn
 	// check for existing URI for this URL and return it if there is one
 	num, err := c.Find(bson.M{"url": URL}).Count()
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("In AuthorURI  with %v\n", err)
 	}
 
 	// log.Println(num)
@@ -46,7 +46,7 @@ func AuthorURI(leg string, site string, hole string, measurement string, mgoconn
 		pair := Uriurl{URI, URL}
 		err = c.Insert(&pair)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalf("In AuthorURI loop with %v\n", err)
 		}
 		//session.Close()
 		return (URI)

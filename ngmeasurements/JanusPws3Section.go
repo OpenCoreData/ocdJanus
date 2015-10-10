@@ -112,7 +112,7 @@ func JanusPws3SectionFunc(qry string, uri string, filename string, database stri
 
 	err = c.Insert(&final)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Error %v with %v\n", err, final)
 	}
 
 	log.Printf("File: %s  written", filename)

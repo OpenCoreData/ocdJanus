@@ -27,8 +27,8 @@ func UploadCSVToMongo(database string, collection string, URI string, filename s
 	log.Printf("File: %s  written with %d bytes\n", filename, n)
 
 	if err != nil {
-		log.Printf("Error in UploadCSVToMongo\n")
-		log.Fatal(err)
+		log.Fatalf("In UploadCSVToMongo  with %v\n", err)
+
 	}
 
 	// session.Close()
@@ -52,7 +52,7 @@ func UploadSchemaOrg(database string, collection string, URI string, data string
 
 	err := c.Insert(&res)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("In UploadSchemaOrg  with %v\n", err)
 	}
 
 	// session.Close()
@@ -75,7 +75,7 @@ func UploadCSVW(database string, collection string, URI string, data string, mgo
 
 	err := c.Insert(&res)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("In UploadCSVW  with %v\n", err)
 	}
 
 	// session.Close()
