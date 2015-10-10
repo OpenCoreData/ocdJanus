@@ -20,8 +20,8 @@ func AuthorURI(leg string, site string, hole string, measurement string) string 
 	}
 	defer session.Close()
 
-	// Optional. Switch the session to a monotonic behavior.
-	session.SetMode(mgo.Monotonic, true)
+	// Optional. Switch the session to a Strong behavior.
+	session.SetMode(mgo.Strong, true)
 	c := session.DB("test").C("uniqueids")
 
 	// edge case check for * and just drop it if it exist....

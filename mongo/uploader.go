@@ -15,8 +15,8 @@ func UploadCSVToMongo(database string, collection string, URI string, filename s
 	}
 	defer session.Close()
 
-	// Optional. Switch the session to a monotonic behavior.
-	session.SetMode(mgo.Monotonic, true)
+	// Optional. Switch the session to a Strong behavior.
+	session.SetMode(mgo.Strong, true)
 	db := session.DB(database)
 
 	file, err := db.GridFS("fs").Create(filename)
@@ -27,6 +27,7 @@ func UploadCSVToMongo(database string, collection string, URI string, filename s
 	log.Printf("File: %s  written with %d bytes\n", filename, n)
 
 	if err != nil {
+		log.Printf("Error in UploadCSVToMongo\n")
 		log.Fatal(err)
 	}
 
@@ -42,8 +43,8 @@ func UploadSchemaOrg(database string, collection string, URI string, data string
 	}
 	defer session.Close()
 
-	// Optional. Switch the session to a monotonic behavior.
-	session.SetMode(mgo.Monotonic, true)
+	// Optional. Switch the session to a Strong behavior.
+	session.SetMode(mgo.Strong, true)
 	c := session.DB(database).C(collection)
 
 	res := metadata.SchemaOrgMetadata{}
@@ -65,8 +66,8 @@ func UploadCSVW(database string, collection string, URI string, data string) err
 	}
 	defer session.Close()
 
-	// Optional. Switch the session to a monotonic behavior.
-	session.SetMode(mgo.Monotonic, true)
+	// Optional. Switch the session to a Strong behavior.
+	session.SetMode(mgo.Strong, true)
 	c := session.DB(database).C(collection)
 
 	res := metadata.CSVWMeta{}

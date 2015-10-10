@@ -88,8 +88,8 @@ func JanusThermalConductivityFunc(qry string, uri string, filename string, datab
 	}
 	defer session.Close()
 
-	// Optional. Switch the session to a monotonic behavior.
-	session.SetMode(mgo.Monotonic, true)
+	// Optional. Switch the session to a Strong behavior.
+	session.SetMode(mgo.Strong, true)
 	c := session.DB(database).C(collection)
 
 	err = c.Insert(&final)
