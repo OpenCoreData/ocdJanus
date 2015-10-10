@@ -13,16 +13,16 @@ type Uriurl struct {
 	Url string
 }
 
-func AuthorURI(leg string, site string, hole string, measurement string) string {
-	session, err := mgo.Dial("127.0.0.1")
-	if err != nil {
-		panic(err)
-	}
-	defer session.Close()
+func AuthorURI(leg string, site string, hole string, measurement string, mgoconn *mgo.Session) string {
+	// session, err := mgo.Dial("127.0.0.1")
+	// if err != nil {
+	// 	panic(err)
+	// }
+	//defer session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
-	session.SetMode(mgo.Strong, true)
-	c := session.DB("test").C("uniqueids")
+	mgoconn.SetMode(mgo.Strong, true)
+	c := mgoconn.DB("test").C("uniqueids")
 
 	// edge case check for * and just drop it if it exist....
 	URL := fmt.Sprintf("http://opencoredata.org/doc/dataset/%v/%v/%v/%v", measurement, leg, site, hole)
@@ -48,13 +48,13 @@ func AuthorURI(leg string, site string, hole string, measurement string) string 
 		if err != nil {
 			log.Fatal(err)
 		}
-		session.Close()
+		//session.Close()
 		return (URI)
 
 	} else {
 		existing := Uriurl{}
 		c.Find(bson.M{"url": URL}).One(&existing)
-		session.Close()
+		//session.Close()
 		return (existing.Uri)
 	}
 

@@ -4,8 +4,8 @@ import (
 	"bytes"
 	// "fmt"
 	// "github.com/kisielk/sqlstruct"
-	// "gopkg.in/mgo.v2"
 	"database/sql"
+	"gopkg.in/mgo.v2"
 	"log"
 	"opencoredata.org/ocdJanus/connect"
 	"opencoredata.org/ocdJanus/metadata"
@@ -56,11 +56,19 @@ func MasterLoop() {
 
 	for index, each := range queryString {
 
+		// get the Oracle connection
 		conn, err := connect.GetJanusCon()
 		if err != nil {
 			panic(err)
 		}
 		defer conn.Close()
+
+		// get the mongo connection
+		mgoconn, err := mgo.Dial("127.0.0.1")
+		if err != nil {
+			panic(err)
+		}
+		defer mgoconn.Close()
 
 		lshqry := queries.Sql_lsh
 		lshrows, err := conn.Query(lshqry)
@@ -101,14 +109,14 @@ func MasterLoop() {
 				log.Printf("DATA: %s %s_%s%s  %s\n", measurements[index], lsh.Leg, lsh.Site, lsh.Hole, qry)
 
 				// build CSVW .csv file
-				uri := mongo.AuthorURI(lsh.Leg, lsh.Site, lsh.Hole, measurements[index])
+				uri := mongo.AuthorURI(lsh.Leg, lsh.Site, lsh.Hole, measurements[index], mgoconn)
 				csvfilename := utils.MakeName("csv", lsh.Leg, lsh.Site, lsh.Hole, measurements[index])
 				csvdata := utils.CSVData(qry, conn)
-				mongo.UploadCSVToMongo("test", "csv", uri, csvfilename, csvdata)
+				mongo.UploadCSVToMongo("test", "csv", uri, csvfilename, csvdata, mgoconn)
 
 				// build CSVW JSON file
 				jsonfilename := utils.MakeName("json", lsh.Leg, lsh.Site, lsh.Hole, measurements[index])
-				err := callToMakeJSON(measurements[index], qry, uri, jsonfilename, "test", "jsonld", conn)
+				err := callToMakeJSON(measurements[index], qry, uri, jsonfilename, "test", "jsonld", conn, mgoconn)
 				if err != nil {
 					log.Printf("janus sql template creation failed: %s", err)
 				}
@@ -116,9 +124,9 @@ func MasterLoop() {
 				// build metadata
 				metastruct := newModels(measurements[index])
 				csvwmeta := metadata.CSVMetadata(metastruct, measurements[index], csvfilename, uri)
-				mongo.UploadCSVW("test", "csvwmeta", uri, csvwmeta)
+				mongo.UploadCSVW("test", "csvwmeta", uri, csvwmeta, mgoconn)
 				schemameta := metadata.SchemaOrgDataset(metastruct, strconv.FormatFloat(lsh.Latitude_degrees, 'f', 2, 64), strconv.FormatFloat(lsh.Longitude_degrees, 'f', 2, 64), measurements[index], csvfilename, uri)
-				mongo.UploadSchemaOrg("test", "schemaorg", uri, schemameta)
+				mongo.UploadSchemaOrg("test", "schemaorg", uri, schemameta, mgoconn)
 
 			} else {
 				log.Printf("No Data: %s %s_%s%s  %v  %v   %s\n", measurements[index], lsh.Leg, lsh.Site, lsh.Hole, lsh.Latitude_degrees, lsh.Longitude_degrees, qry)
@@ -127,6 +135,8 @@ func MasterLoop() {
 		}
 
 		conn.Close()
+		mgoconn.Close()
+
 	}
 }
 
@@ -213,121 +223,121 @@ func newModels(c string) interface{} {
 	return nil
 }
 
-func callToMakeJSON(c string, qry string, uri string, filename string, database string, collection string, conn *sql.DB) error {
+func callToMakeJSON(c string, qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
 	switch c {
 	case "JanusAgeDatapoint":
-		err := JanusAgeDatapointFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusAgeDatapointFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusAgeProfile":
-		err := JanusAgeProfileFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusAgeProfileFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusChemCarb":
-		err := JanusChemCarbFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusChemCarbFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusCoreImage":
-		err := JanusCoreImageFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusCoreImageFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusCoreSummary":
-		err := JanusCoreSummaryFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusCoreSummaryFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusCryomagSection":
-		err := JanusCryomagSectionFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusCryomagSectionFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusDhtApct":
-		err := JanusDhtApctFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusDhtApctFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusGraSection":
-		err := JanusGraSectionFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusGraSectionFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusIcpSample":
-		err := JanusIcpSampleFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusIcpSampleFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusMadSection":
-		err := JanusMadSectionFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusMadSectionFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusMs2fSection":
-		err := JanusMs2fSectionFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusMs2fSectionFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusMsclSection":
-		err := JanusMsclSectionFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusMsclSectionFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusMslSection":
-		err := JanusMslSectionFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusMslSectionFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusNcrSection":
-		err := JanusNcrSectionFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusNcrSectionFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusNgrSection":
-		err := JanusNgrSectionFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusNgrSectionFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusPaleoImage":
-		err := JanusPaleoImageFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusPaleoImageFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusPaleoOccurrence":
-		err := JanusPaleoOccurrenceFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusPaleoOccurrenceFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusPaleoSample":
-		err := JanusPaleoSampleFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusPaleoSampleFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusPrimeDataImage":
-		err := JanusPrimeDataImageFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusPrimeDataImageFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusPwlSection":
-		err := JanusPwlSectionFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusPwlSectionFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusPws1Section":
-		err := JanusPws1SectionFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusPws1SectionFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusPws2Section":
-		err := JanusPws2SectionFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusPws2SectionFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusPws3Section":
-		err := JanusPws3SectionFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusPws3SectionFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusRscSection":
-		err := JanusRscSectionFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusRscSectionFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusSample":
-		err := JanusSampleFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusSampleFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusSedThinSectionSample":
-		err := JanusSedThinSectionSampleFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusSedThinSectionSampleFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusShearStrengthAvs":
-		err := JanusShearStrengthAvsFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusShearStrengthAvsFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusShearStrengthPen":
-		err := JanusShearStrengthPenFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusShearStrengthPenFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusShearStrengthTor":
-		err := JanusShearStrengthTorFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusShearStrengthTorFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusSmearSlide":
-		err := JanusSmearSlideFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusSmearSlideFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusTensorCore":
-		err := JanusTensorCoreFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusTensorCoreFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusThermalConductivity":
-		err := JanusThermalConductivityFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusThermalConductivityFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusThinSectionImage":
-		err := JanusThinSectionImageFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusThinSectionImageFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusVcdHardRockImage":
-		err := JanusVcdHardRockImageFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusVcdHardRockImageFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusVcdImage":
-		err := JanusVcdImageFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusVcdImageFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusVcdStructureImage":
-		err := JanusVcdStructureImageFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusVcdStructureImageFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusXrdImage":
-		err := JanusXrdImageFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusXrdImageFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	case "JanusXrfSample":
-		err := JanusXrfSampleFunc(qry, uri, filename, "test", "jsonld", conn)
+		err := JanusXrfSampleFunc(qry, uri, filename, "test", "jsonld", conn, session)
 		return err
 	}
 	return nil

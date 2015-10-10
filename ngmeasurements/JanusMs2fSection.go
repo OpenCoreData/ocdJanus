@@ -55,7 +55,7 @@ func JanusMs2fSectionModel() *JanusMs2fSection {
 }
 
 // func JSONData(qry string, uri string, filename string) []byte {
-func JanusMs2fSectionFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB) error {
+func JanusMs2fSectionFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
 
 	// conn, err := connect.GetJanusCon()
 	// 	if err != nil {
@@ -89,11 +89,11 @@ func JanusMs2fSectionFunc(qry string, uri string, filename string, database stri
 	tableSet = append(tableSet, theTable)
 	final := JanusMs2fSectioncVSW{tableSet}
 
-	session, err := mgo.Dial("127.0.0.1")
-	if err != nil {
-		panic(err)
-	}
-	defer session.Close()
+	// session, err := mgo.Dial("127.0.0.1")
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)
@@ -106,6 +106,6 @@ func JanusMs2fSectionFunc(qry string, uri string, filename string, database stri
 
 	log.Printf("File: %s  written", filename)
 
-	session.Close()
+	// session.Close()
 	return nil
 }

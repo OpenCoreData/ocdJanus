@@ -66,7 +66,7 @@ func JanusPws3SectionModel() *JanusPws3Section {
 }
 
 // func JSONData(qry string, uri string, filename string) []byte {
-func JanusPws3SectionFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB) error {
+func JanusPws3SectionFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
 
 	// conn, err := connect.GetJanusCon()
 	// 	if err != nil {
@@ -100,11 +100,11 @@ func JanusPws3SectionFunc(qry string, uri string, filename string, database stri
 	tableSet = append(tableSet, theTable)
 	final := JanusPws3SectioncVSW{tableSet}
 
-	session, err := mgo.Dial("127.0.0.1")
-	if err != nil {
-		panic(err)
-	}
-	defer session.Close()
+	// session, err := mgo.Dial("127.0.0.1")
+	// if err != nil {
+	// 	panic(err)
+	// }
+	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)
@@ -117,6 +117,6 @@ func JanusPws3SectionFunc(qry string, uri string, filename string, database stri
 
 	log.Printf("File: %s  written", filename)
 
-	session.Close()
+	// session.Close()
 	return nil
 }
