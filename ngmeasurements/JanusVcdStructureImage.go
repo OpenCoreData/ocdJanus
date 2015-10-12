@@ -91,7 +91,7 @@ func JanusVcdStructureImageFunc(qry string, uri string, filename string, databas
 
 	err = c.Insert(&final)
 	if err != nil {
-		log.Printf("Error %v with %v\n", err, final)
+		log.Printf("Janus func Error %v with %s\n", err, final, filename)
 	}
 
 	log.Printf("File: %s  written", filename)

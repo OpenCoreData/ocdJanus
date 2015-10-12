@@ -111,7 +111,7 @@ func JanusPaleoOccurrenceFunc(qry string, uri string, filename string, database 
 
 	err = c.Insert(&final)
 	if err != nil {
-		log.Printf("Error %v with %v\n", err, final)
+		log.Printf("Janus func Error %v with %s\n", err, final, filename)
 	}
 
 	log.Printf("File: %s  written", filename)
