@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"github.com/kisielk/sqlstruct"
 	"gopkg.in/mgo.v2"
-	"gopkg.in/mgo.v2/bson"
 	"log"
 	// "opencoredata.org/ocdJanus/connect"
 )
@@ -102,15 +101,9 @@ func JanusCryomagSectionFunc(qry string, uri string, filename string, database s
 	session.SetMode(mgo.Strong, true)
 	c := session.DB(database).C(collection)
 
-	bsondata, bsonerr := bson.Marshal(final)
-	if bsonerr != nil {
-		log.Fatalf("Error %v with %v\n", err, final)
-	}
-
-	// err = c.Insert(&final)
-	err = c.Insert(bsondata)
+	err = c.Insert(&final)
 	if err != nil {
-		log.Fatalf("Error %v with %v\n", err, final)
+		log.Printff("Error %v with %v\n", err, final)
 	}
 
 	log.Printf("File: %s  written", filename)

@@ -94,7 +94,7 @@ func JanusThermalConductivityFunc(qry string, uri string, filename string, datab
 
 	err = c.Insert(&final)
 	if err != nil {
-		log.Fatalf("Error %v with %v\n", err, final)
+		log.Printff("Error %v with %v\n", err, final)
 	}
 
 	log.Printf("File: %s  written", filename)
