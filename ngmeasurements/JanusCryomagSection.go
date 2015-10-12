@@ -103,7 +103,7 @@ func JanusCryomagSectionFunc(qry string, uri string, filename string, database s
 
 	err = c.Insert(&final)
 	if err != nil {
-		log.Printf("Janus func Error %v with %s\n", err, final, filename)
+		log.Printf("Janus func Error %v with %s\n", err, filename)
 	}
 
 	log.Printf("File: %s  written", filename)
