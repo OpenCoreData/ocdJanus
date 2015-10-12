@@ -104,7 +104,7 @@ func JanusNgrSectionFunc(qry string, uri string, filename string, database strin
 
 	err = c.Insert(&final)
 	if err != nil {
-		log.Printff("Error %v with %v\n", err, final)
+		log.Printf("Error %v with %v\n", err, final)
 	}
 
 	log.Printf("File: %s  written", filename)
