@@ -2,11 +2,12 @@ package ngmeasurements
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"github.com/kisielk/sqlstruct"
 	"gopkg.in/mgo.v2"
 	"log"
-	// "opencoredata.org/ocdJanus/connect"
+	"opencoredata.org/ocdJanus/utils"
 )
 
 type JanusCryomagSectioncVSW struct {
@@ -107,6 +108,9 @@ func JanusCryomagSectionFunc(qry string, uri string, filename string, database s
 	}
 
 	log.Printf("File: %s  written", filename)
+
+	jm, _ := json.MarshalIndent(final, "", " ")
+	_ = utils.WriteFile(filename, jm)
 
 	// session.Close()
 	return nil

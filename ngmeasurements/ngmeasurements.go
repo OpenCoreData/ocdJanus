@@ -125,7 +125,7 @@ func MasterLoop() {
 				metastruct := newModels(measurements[index])
 				csvwmeta := metadata.CSVMetadata(metastruct, measurements[index], csvfilename, uri)
 				mongo.UploadCSVW("test", "csvwmeta", uri, csvwmeta, mgoconn)
-				schemameta := metadata.SchemaOrgDataset(metastruct, strconv.FormatFloat(lsh.Latitude_degrees, 'f', 2, 64), strconv.FormatFloat(lsh.Longitude_degrees, 'f', 2, 64), measurements[index], csvfilename, uri)
+				schemameta := metadata.SchemaOrgDataset(metastruct, strconv.FormatFloat(lsh.Latitude_degrees, 'f', 2, 64), strconv.FormatFloat(lsh.Longitude_degrees, 'f', 2, 64), measurements[index], csvfilename, uri, lsh.Leg, lsh.Site, lsh.Hole)
 				mongo.UploadSchemaOrg("test", "schemaorg", uri, schemameta, mgoconn)
 
 			} else {
