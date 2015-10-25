@@ -55,17 +55,21 @@ type Columns struct {
 
 // schema.org Dataset metadata structs
 type SchemaOrgMetadata struct {
-	Context         []interface{} `json:"@context"`
-	Type            string        `json:"@type"`
-	Author          Author        `json:"author"`
-	Description     string        `json:"description"`
-	Distribution    Distribution  `json:"distribution"`
-	Glview_dataset  string        `json:"glview:dataset"`
-	Glview_keywords string        `json:"glview:keywords"`
-	Keywords        string        `json:"keywords"`
-	Name            string        `json:"name"`
-	Spatial         Spatial       `json:"spatial"`
-	URL             string        `json:"url"`
+	Context             []interface{} `json:"@context"`
+	Type                string        `json:"@type"`
+	Author              Author        `json:"author"`
+	Description         string        `json:"description"`
+	Distribution        Distribution  `json:"distribution"`
+	GlviewDataset       string        `json:"glview:dataset"`
+	GlviewKeywords      string        `json:"glview:keywords"`
+	OpenCoreLeg         string        `json:"opencore:leg"`
+	OpenCoreSite        string        `json:"opencore:site"`
+	OpenCoreHole        string        `json:"opencore:hole"`
+	OpenCoreMeasurement string        `json:"opencore:measurement"`
+	Keywords            string        `json:"keywords"`
+	Name                string        `json:"name"`
+	Spatial             Spatial       `json:"spatial"`
+	URL                 string        `json:"url"`
 }
 
 // type Context struct {
@@ -142,7 +146,7 @@ func CSVMetadata(value interface{}, measurement string, filename string, uri str
 
 }
 
-func SchemaOrgDataset(value interface{}, latitude string, longitude string, measurement string, filename string, uri string) string {
+func SchemaOrgDataset(value interface{}, latitude string, longitude string, measurement string, filename string, uri string, leg string, site string, hole string) string {
 	// set up some of our boiler plate schema.org/Dataset elements
 	// need date publishedOn, URL, lat long
 
@@ -155,7 +159,7 @@ func SchemaOrgDataset(value interface{}, latitude string, longitude string, meas
 	// contextArray := []interface{"http://schema.org", {"glview": "http://schema.geolink.org/somethingIforgot"}}
 	kewords := fmt.Sprintf("DSDP, OPD, IODP, %s", measurement)
 
-	schemametadata := SchemaOrgMetadata{Type: "Dataset", Author: author, Description: "Data set description", Distribution: distribution, Glview_dataset: filename, Glview_keywords: kewords, Keywords: kewords, Name: filename, Spatial: spatial, URL: uri}
+	schemametadata := SchemaOrgMetadata{Type: "Dataset", Author: author, Description: "Data set description", Distribution: distribution, GlviewDataset: filename, GlviewKeywords: kewords, OpenCoreLeg: leg, OpenCoreSite: site, OpenCoreHole: hole, OpenCoreMeasurement: measurement, Keywords: kewords, Name: filename, Spatial: spatial, URL: uri}
 	// schemametadata := SchemaOrgMetadata{Context:  ["http://schema.org", {"glview": "http://schema.geolink.org/somethingIforgot"}], Type: "Dataset"}
 
 	schemaorgJSON, _ := json.MarshalIndent(schemametadata, "", " ")

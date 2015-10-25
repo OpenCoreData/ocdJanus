@@ -2,12 +2,11 @@ package ngmeasurements
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"github.com/kisielk/sqlstruct"
 	"gopkg.in/mgo.v2"
 	"log"
-
-	"encoding/json"
 	"opencoredata.org/ocdJanus/utils"
 )
 
@@ -64,12 +63,6 @@ func JanusRscSectionModel() *JanusRscSection {
 // func JSONData(qry string, uri string, filename string) []byte {
 func JanusRscSectionFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
 
-	// conn, err := connect.GetJanusCon()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	defer conn.Close()
-
 	rows, err := conn.Query(qry)
 	if err != nil {
 		log.Printf(`Error with "%s": %s`, qry, err)
@@ -95,12 +88,6 @@ func JanusRscSectionFunc(qry string, uri string, filename string, database strin
 	tableSet := []JanusRscSectiontable{}
 	tableSet = append(tableSet, theTable)
 	final := JanusRscSectioncVSW{tableSet}
-
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)

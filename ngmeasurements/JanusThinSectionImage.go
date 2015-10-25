@@ -37,7 +37,7 @@ type JanusThinSectionImage struct {
 	Top_cm             float64        `json:"Top_cm"`
 	Bot_cm             float64        `json:"Bot_cm"`
 	Depth_mbsf         float64        `json:"Depth_mbsf"`
-	Sam_section_id     int64          `json:"Sam_section_id"`
+	Section_id         int64          `json:"Section_id"`
 	Piece              sql.NullInt64  `json:"Piece"`
 	Sub_piece          sql.NullString `json:"Sub_piece"`
 	Sample_id          int64          `json:"Sample_id"`
@@ -52,8 +52,8 @@ type JanusThinSectionImage struct {
 	Magnification      sql.NullString `json:"Magnification"`
 	Feature            sql.NullString `json:"Feature"`
 	Scientist_initials sql.NullString `json:"Scientist_initials"`
-	Format             sql.NullString `json:"Format"`
-	Resolution         sql.NullInt64  `json:"Resolution"`
+	Image_format       sql.NullString `json:"Image_format"`
+	Image_resolution   sql.NullInt64  `json:"Image_resolution"`
 	Micro_image_id     sql.NullInt64  `json:"Micro_image_id"`
 }
 
@@ -63,12 +63,6 @@ func JanusThinSectionImageModel() *JanusThinSectionImage {
 
 // func JSONData(qry string, uri string, filename string) []byte {
 func JanusThinSectionImageFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
-
-	// conn, err := connect.GetJanusCon()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	defer conn.Close()
 
 	rows, err := conn.Query(qry)
 	if err != nil {
@@ -95,12 +89,6 @@ func JanusThinSectionImageFunc(qry string, uri string, filename string, database
 	tableSet := []JanusThinSectionImagetable{}
 	tableSet = append(tableSet, theTable)
 	final := JanusThinSectionImagecVSW{tableSet}
-
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)

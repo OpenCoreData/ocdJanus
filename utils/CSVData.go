@@ -42,7 +42,7 @@ func CSVData(qry string, conn *sql.DB) []byte {
 
 		for i, raw := range rawResult {
 			if raw == nil {
-				result[i] = "\\N"
+				result[i] = "" // was using the \\N but changed to emptry string
 			} else {
 				result[i] = string(raw)
 			}

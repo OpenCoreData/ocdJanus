@@ -38,7 +38,7 @@ type JanusSample struct {
 	Bot_cm                 float64         `json:"Bot_cm"`
 	Depth_mbsf             float64         `json:"Depth_mbsf"`
 	Request_number         sql.NullString  `json:"Request_number"`
-	Volume_cc              sql.NullFloat64 `json:"Volume_cc"`
+	Sample_volume          sql.NullFloat64 `json:"Sample_volume"`
 	Piece_sub_piece        sql.NullString  `json:"Piece_sub_piece"`
 	Sample_comment         sql.NullString  `json:"Sample_comment"`
 	Sample_archive_working sql.NullString  `json:"Sample_archive_working"`
@@ -56,12 +56,6 @@ func JanusSampleModel() *JanusSample {
 
 // func JSONData(qry string, uri string, filename string) []byte {
 func JanusSampleFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
-
-	// conn, err := connect.GetJanusCon()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	defer conn.Close()
 
 	rows, err := conn.Query(qry)
 	if err != nil {
@@ -88,12 +82,6 @@ func JanusSampleFunc(qry string, uri string, filename string, database string, c
 	tableSet := []JanusSampletable{}
 	tableSet = append(tableSet, theTable)
 	final := JanusSamplecVSW{tableSet}
-
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)

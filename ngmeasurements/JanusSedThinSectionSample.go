@@ -41,7 +41,7 @@ type JanusSedThinSectionSample struct {
 	Sample_id            int64          `json:"Sample_id"`
 	Component_type_code  string         `json:"Component_type_code"`
 	Component_name_code  int64          `json:"Component_name_code"`
-	Sts_component_name   string         `json:"Sts_component_name"`
+	Component_name       string         `json:"Component_name"`
 	Abundance_code       sql.NullString `json:"Abundance_code"`
 	Thin_section_comment sql.NullString `json:"Thin_section_comment"`
 }
@@ -52,12 +52,6 @@ func JanusSedThinSectionSampleModel() *JanusSedThinSectionSample {
 
 // func JSONData(qry string, uri string, filename string) []byte {
 func JanusSedThinSectionSampleFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
-
-	// conn, err := connect.GetJanusCon()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	defer conn.Close()
 
 	rows, err := conn.Query(qry)
 	if err != nil {
@@ -84,12 +78,6 @@ func JanusSedThinSectionSampleFunc(qry string, uri string, filename string, data
 	tableSet := []JanusSedThinSectionSampletable{}
 	tableSet = append(tableSet, theTable)
 	final := JanusSedThinSectionSamplecVSW{tableSet}
-
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)

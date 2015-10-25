@@ -44,8 +44,6 @@ type JanusMs2fSection struct {
 	Avg_magnetic_susceptibility float64        `json:"Avg_magnetic_susceptibility"`
 	Core_temperature            float64        `json:"Core_temperature"`
 	Probe_temperature           float64        `json:"Probe_temperature"`
-	Ms2f_top_interval           float64        `json:"Ms2f_top_interval"`
-	Ms2f_bottom_interval        float64        `json:"Ms2f_bottom_interval"`
 	Drift_corr_susceptibility   float64        `json:"Drift_corr_susceptibility"`
 	Actual_daq_period           float64        `json:"Actual_daq_period"`
 	Offset                      float64        `json:"Offset"`
@@ -57,12 +55,6 @@ func JanusMs2fSectionModel() *JanusMs2fSection {
 
 // func JSONData(qry string, uri string, filename string) []byte {
 func JanusMs2fSectionFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
-
-	// conn, err := connect.GetJanusCon()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	defer conn.Close()
 
 	rows, err := conn.Query(qry)
 	if err != nil {
@@ -89,12 +81,6 @@ func JanusMs2fSectionFunc(qry string, uri string, filename string, database stri
 	tableSet := []JanusMs2fSectiontable{}
 	tableSet = append(tableSet, theTable)
 	final := JanusMs2fSectioncVSW{tableSet}
-
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)

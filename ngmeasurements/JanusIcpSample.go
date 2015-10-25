@@ -92,12 +92,6 @@ func JanusIcpSampleModel() *JanusIcpSample {
 // func JSONData(qry string, uri string, filename string) []byte {
 func JanusIcpSampleFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
 
-	// conn, err := connect.GetJanusCon()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	defer conn.Close()
-
 	rows, err := conn.Query(qry)
 	if err != nil {
 		log.Printf(`Error with "%s": %s`, qry, err)
@@ -123,12 +117,6 @@ func JanusIcpSampleFunc(qry string, uri string, filename string, database string
 	tableSet := []JanusIcpSampletable{}
 	tableSet = append(tableSet, theTable)
 	final := JanusIcpSamplecVSW{tableSet}
-
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)

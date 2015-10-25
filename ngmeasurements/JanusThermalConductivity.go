@@ -40,7 +40,7 @@ type JanusThermalConductivity struct {
 	Probe_type       string         `json:"Probe_type"`
 	Thermcon_value   float64        `json:"Thermcon_value"`
 	System_id        sql.NullInt64  `json:"System_id"`
-	Probe_id         int64          `json:"Probe_id"`
+	Probe_number     int64          `json:"Probe_number"`
 	Thermcon_comment sql.NullString `json:"Thermcon_comment"`
 }
 
@@ -50,12 +50,6 @@ func JanusThermalConductivityModel() *JanusThermalConductivity {
 
 // func JSONData(qry string, uri string, filename string) []byte {
 func JanusThermalConductivityFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
-
-	// conn, err := connect.GetJanusCon()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	defer conn.Close()
 
 	rows, err := conn.Query(qry)
 	if err != nil {
@@ -82,12 +76,6 @@ func JanusThermalConductivityFunc(qry string, uri string, filename string, datab
 	tableSet := []JanusThermalConductivitytable{}
 	tableSet = append(tableSet, theTable)
 	final := JanusThermalConductivitycVSW{tableSet}
-
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)

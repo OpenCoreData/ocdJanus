@@ -37,34 +37,34 @@ type JanusPwlSection struct {
 	Top_cm                    float64         `json:"Top_cm"`
 	Depth_mbsf                float64         `json:"Depth_mbsf"`
 	Section_id                int64           `json:"Section_id"`
-	Velocity_m_s              sql.NullFloat64 `json:"Velocity_m_s"`
+	Velocity                  sql.NullFloat64 `json:"Velocity"`
 	Run_number                string          `json:"Run_number"`
 	Run_timestamp             sql.NullString  `json:"Run_timestamp"`
 	Core_status               sql.NullString  `json:"Core_status"`
 	Liner_status              sql.NullString  `json:"Liner_status"`
 	Liner_correction          sql.NullString  `json:"Liner_correction"`
-	Requested_interval_cm     sql.NullFloat64 `json:"Requested_interval_cm"`
-	Requested_samples         sql.NullInt64   `json:"Requested_samples"`
+	Requested_daq_interval    sql.NullFloat64 `json:"Requested_daq_interval"`
+	Requested_daqs_per_sample sql.NullInt64   `json:"Requested_daqs_per_sample"`
 	Acoustic_signal_threshold sql.NullFloat64 `json:"Acoustic_signal_threshold"`
-	Core_temperature_c        sql.NullFloat64 `json:"Core_temperature_c"`
-	Mean_separation_mm        sql.NullFloat64 `json:"Mean_separation_mm"`
-	Stddev_separation         sql.NullInt64   `json:"Stddev_separation"`
-	Mean_transit_time         sql.NullFloat64 `json:"Mean_transit_time"`
-	Stddev_transit_time       sql.NullFloat64 `json:"Stddev_transit_time"`
+	Core_temperature          sql.NullFloat64 `json:"Core_temperature"`
+	Meas_separation_mean      sql.NullFloat64 `json:"Meas_separation_mean"`
+	Meas_separation_sd        sql.NullInt64   `json:"Meas_separation_sd"`
+	Meas_time_mean            sql.NullFloat64 `json:"Meas_time_mean"`
+	Meas_time_sd              sql.NullFloat64 `json:"Meas_time_sd"`
 	Mean_acoustic_signal      sql.NullFloat64 `json:"Mean_acoustic_signal"`
 	Attempted_daqs            sql.NullInt64   `json:"Attempted_daqs"`
 	Valid_daqs                sql.NullInt64   `json:"Valid_daqs"`
 	Liner_thickness           sql.NullFloat64 `json:"Liner_thickness"`
 	Standard_name             sql.NullString  `json:"Standard_name"`
 	Standard_set_name         sql.NullString  `json:"Standard_set_name"`
-	Expected_velocity_m_s     sql.NullFloat64 `json:"Expected_velocity_m_s"`
-	Calib_timestamp           sql.NullString  `json:"Calibration_timestamp"`
-	Calib_separation_m0       sql.NullFloat64 `json:"Calibration_separation_m0"`
-	Calib_separation_m1       sql.NullFloat64 `json:"Calibration_separation_m1"`
-	Calib_separation_mse      sql.NullFloat64 `json:"Calibration_separation_mse"`
-	Calib_time_m0             sql.NullFloat64 `json:"Calibration_time_m0"`
-	Calib_time_m1             sql.NullFloat64 `json:"Calibration_time_m1"`
-	Calib_time_mse            sql.NullFloat64 `json:"Calibration_time_mse"`
+	Expected_velocity         sql.NullFloat64 `json:"Expected_velocity"`
+	Calibration_timestamp     sql.NullString  `json:"Calibration_timestamp"`
+	Calib_separation_m0       sql.NullFloat64 `json:"Calib_separation_m0"`
+	Calib_separation_m1       sql.NullFloat64 `json:"Calib_separation_m1"`
+	Calib_separation_mse      sql.NullFloat64 `json:"Calib_separation_mse"`
+	Calib_time_m0             sql.NullFloat64 `json:"Calib_time_m0"`
+	Calib_time_m1             sql.NullFloat64 `json:"Calib_time_m1"`
+	Calib_time_mse            sql.NullFloat64 `json:"Calib_time_mse"`
 }
 
 func JanusPwlSectionModel() *JanusPwlSection {
@@ -73,12 +73,6 @@ func JanusPwlSectionModel() *JanusPwlSection {
 
 // func JSONData(qry string, uri string, filename string) []byte {
 func JanusPwlSectionFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
-
-	// conn, err := connect.GetJanusCon()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	defer conn.Close()
 
 	rows, err := conn.Query(qry)
 	if err != nil {
@@ -105,12 +99,6 @@ func JanusPwlSectionFunc(qry string, uri string, filename string, database strin
 	tableSet := []JanusPwlSectiontable{}
 	tableSet = append(tableSet, theTable)
 	final := JanusPwlSectioncVSW{tableSet}
-
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)

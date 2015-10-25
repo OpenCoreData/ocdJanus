@@ -38,7 +38,7 @@ type JanusChemCarb struct {
 	Bot_cm         float64         `json:"Bot_cm"`
 	Depth_mbsf     float64         `json:"Depth_mbsf"`
 	Inor_c_wt_pct  sql.NullFloat64 `json:"Inor_C_wt_pct"`
-	Caco3_wt_pct   sql.NullFloat64 `json:"CaCO3_wt_pct"`
+	Caco3_wt_pct   sql.NullFloat64 `json:"CacO3_wt_pct"`
 	Tot_c_wt_pct   sql.NullFloat64 `json:"Tot_C_wt_pct"`
 	Org_c_wt_pct   sql.NullFloat64 `json:"Org_C_wt_pct"`
 	Nit_wt_pct     sql.NullFloat64 `json:"Nit_wt_pct"`
@@ -52,12 +52,6 @@ func JanusChemCarbModel() *JanusChemCarb {
 
 // func JSONData(qry string, uri string, filename string) []byte {
 func JanusChemCarbFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
-
-	// conn, err := connect.GetJanusCon()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	defer conn.Close()
 
 	rows, err := conn.Query(qry)
 	if err != nil {
@@ -84,12 +78,6 @@ func JanusChemCarbFunc(qry string, uri string, filename string, database string,
 	tableSet := []JanusChemCarbtable{}
 	tableSet = append(tableSet, theTable)
 	final := JanusChemCarbcVSW{tableSet}
-
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)

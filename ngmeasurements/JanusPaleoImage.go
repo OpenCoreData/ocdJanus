@@ -2,12 +2,11 @@ package ngmeasurements
 
 import (
 	"database/sql"
+	"encoding/json"
 	"fmt"
 	"github.com/kisielk/sqlstruct"
 	"gopkg.in/mgo.v2"
 	"log"
-
-	"encoding/json"
 	"opencoredata.org/ocdJanus/utils"
 )
 
@@ -49,12 +48,6 @@ func JanusPaleoImageModel() *JanusPaleoImage {
 // func JSONData(qry string, uri string, filename string) []byte {
 func JanusPaleoImageFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
 
-	// conn, err := connect.GetJanusCon()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	defer conn.Close()
-
 	rows, err := conn.Query(qry)
 	if err != nil {
 		log.Printf(`Error with "%s": %s`, qry, err)
@@ -80,12 +73,6 @@ func JanusPaleoImageFunc(qry string, uri string, filename string, database strin
 	tableSet := []JanusPaleoImagetable{}
 	tableSet = append(tableSet, theTable)
 	final := JanusPaleoImagecVSW{tableSet}
-
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)

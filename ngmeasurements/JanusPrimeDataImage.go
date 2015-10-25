@@ -49,12 +49,6 @@ func JanusPrimeDataImageModel() *JanusPrimeDataImage {
 // func JSONData(qry string, uri string, filename string) []byte {
 func JanusPrimeDataImageFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
 
-	// conn, err := connect.GetJanusCon()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	defer conn.Close()
-
 	rows, err := conn.Query(qry)
 	if err != nil {
 		log.Printf(`Error with "%s": %s`, qry, err)
@@ -80,12 +74,6 @@ func JanusPrimeDataImageFunc(qry string, uri string, filename string, database s
 	tableSet := []JanusPrimeDataImagetable{}
 	tableSet = append(tableSet, theTable)
 	final := JanusPrimeDataImagecVSW{tableSet}
-
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)

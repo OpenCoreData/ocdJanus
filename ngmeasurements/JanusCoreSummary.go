@@ -48,12 +48,6 @@ func JanusCoreSummaryModel() *JanusCoreSummary {
 // func JSONData(qry string, uri string, filename string) []byte {
 func JanusCoreSummaryFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
 
-	// conn, err := connect.GetJanusCon()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	defer conn.Close()
-
 	rows, err := conn.Query(qry)
 	if err != nil {
 		log.Printf(`Error with "%s": %s`, qry, err)
@@ -79,12 +73,6 @@ func JanusCoreSummaryFunc(qry string, uri string, filename string, database stri
 	tableSet := []JanusCoreSummarytable{}
 	tableSet = append(tableSet, theTable)
 	final := JanusCoreSummarycVSW{tableSet}
-
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)

@@ -37,17 +37,17 @@ type JanusMadSection struct {
 	Top_cm                      float64         `json:"Top_cm"`
 	Bot_cm                      float64         `json:"Bot_cm"`
 	Depth_mbsf                  float64         `json:"Depth_mbsf"`
-	Sam_section_id              int64           `json:"Sam_section_id"`
-	Calc_water_content_wet_pct  sql.NullFloat64 `json:"Calc_water_content_wet_pct"`
-	Calc_water_content_dry_pct  sql.NullFloat64 `json:"Calc_water_content_dry_pct"`
-	Calc_bulk_density_g_cc      sql.NullFloat64 `json:"Calc_bulk_density_g_cc"`
-	Calc_dry_density_g_cc       sql.NullFloat64 `json:"Calc_dry_density_g_cc"`
-	Calc_grain_density_g_cc     sql.NullFloat64 `json:"Calc_grain_density_g_cc"`
-	Calc_porosity_pct           sql.NullFloat64 `json:"Calc_porosity_pct"`
+	Section_id                  int64           `json:"Section_id"`
+	Calc_water_content_wet      sql.NullFloat64 `json:"Calc_water_content_wet"`
+	Calc_water_content_dry      sql.NullFloat64 `json:"Calc_water_content_dry"`
+	Calc_bulk_density           sql.NullFloat64 `json:"Calc_bulk_density"`
+	Calc_dry_density            sql.NullFloat64 `json:"Calc_dry_density"`
+	Calc_grain_density          sql.NullFloat64 `json:"Calc_grain_density"`
+	Calc_porosity               sql.NullFloat64 `json:"Calc_porosity"`
 	Calc_void_ratio             sql.NullFloat64 `json:"Calc_void_ratio"`
 	Calc_method                 string          `json:"Calc_method"`
 	Method                      string          `json:"Method"`
-	Comments                    sql.NullString  `json:"Comments"`
+	Mad_comment                 sql.NullString  `json:"Mad_comment"`
 	Beaker_date_time            sql.NullString  `json:"Beaker_date_time"`
 	Sample_water_content_bulk   sql.NullFloat64 `json:"Sample_water_content_bulk"`
 	Sample_water_content_solids sql.NullFloat64 `json:"Sample_water_content_solids"`
@@ -64,12 +64,6 @@ func JanusMadSectionModel() *JanusMadSection {
 
 // func JSONData(qry string, uri string, filename string) []byte {
 func JanusMadSectionFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
-
-	// conn, err := connect.GetJanusCon()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	defer conn.Close()
 
 	rows, err := conn.Query(qry)
 	if err != nil {
@@ -96,12 +90,6 @@ func JanusMadSectionFunc(qry string, uri string, filename string, database strin
 	tableSet := []JanusMadSectiontable{}
 	tableSet = append(tableSet, theTable)
 	final := JanusMadSectioncVSW{tableSet}
-
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)

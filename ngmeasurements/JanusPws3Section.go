@@ -27,39 +27,39 @@ type JanusPws3SectionjanusRow struct {
 
 // make name generic  How to load the body of struct
 type JanusPws3Section struct {
-	Leg                      int64           `json:"Leg"`
-	Site                     int64           `json:"Site"`
-	Hole                     string          `json:"Hole"`
-	Core                     int64           `json:"Core"`
-	Core_type                string          `json:"Core_type"`
-	Section_number           int64           `json:"Section_number"`
-	Section_type             string          `json:"Section_type"`
-	Top_cm                   float64         `json:"Top_cm"`
-	Bot_cm                   float64         `json:"Bot_cm"`
-	Depth_mbsf               float64         `json:"Depth_mbsf"`
-	Section_id               int64           `json:"Section_id"`
-	Direction                sql.NullString  `json:"Direction"`
-	Velocity_m_s             sql.NullFloat64 `json:"Velocity_m_s"`
-	Run_number               int64           `json:"Run_number"`
-	Run_timestamp            sql.NullString  `json:"Run_timestamp"`
-	Core_temperature_c       sql.NullFloat64 `json:"Core_temperature_c"`
-	Liner_correction         sql.NullString  `json:"Liner_correction"`
-	Raw_data_collected       sql.NullString  `json:"Raw_data_collected"`
-	Standard_name            sql.NullString  `json:"Standard_name"`
-	Standard_set_name        sql.NullString  `json:"Standard_set_name"`
-	Expected_velocity_m_s    sql.NullFloat64 `json:"Expected_velocity_m_s"`
-	Measurement_no           sql.NullInt64   `json:"Measurement_no"`
-	Transducer_separation_mm sql.NullFloat64 `json:"Transducer_separation_mm"`
-	Measured_time_us         sql.NullFloat64 `json:"Measured_time_us"`
-	Contact_pressure         sql.NullFloat64 `json:"Contact_pressure"`
-	Liner_thickness          sql.NullFloat64 `json:"Liner_thickness"`
-	Calibration_timestamp    sql.NullString  `json:"Calibration_timestamp"`
-	Calib_separation_m0      sql.NullFloat64 `json:"Calibration_separation_m0"`
-	Calib_separation_m1      sql.NullFloat64 `json:"Calibration_separation_m1"`
-	Calib_separation_mse     sql.NullFloat64 `json:"Calibration_separation_mse"`
-	Calib_time_m0            sql.NullFloat64 `json:"Calibration_time_m0"`
-	Calib_time_m1            sql.NullFloat64 `json:"Calibration_time_m1"`
-	Calib_time_mse           sql.NullFloat64 `json:"Calibration_time_mse"`
+	Leg                   int64           `json:"Leg"`
+	Site                  int64           `json:"Site"`
+	Hole                  string          `json:"Hole"`
+	Core                  int64           `json:"Core"`
+	Core_type             string          `json:"Core_type"`
+	Section_number        int64           `json:"Section_number"`
+	Section_type          string          `json:"Section_type"`
+	Top_cm                float64         `json:"Top_cm"`
+	Bot_cm                float64         `json:"Bot_cm"`
+	Depth_mbsf            float64         `json:"Depth_mbsf"`
+	Section_id            int64           `json:"Section_id"`
+	Direction             sql.NullString  `json:"Direction"`
+	Velocity              sql.NullFloat64 `json:"Velocity"`
+	Run_number            int64           `json:"Run_number"`
+	Run_timestamp         sql.NullString  `json:"Run_timestamp"`
+	Core_temperature      sql.NullFloat64 `json:"Core_temperature"`
+	Liner_correction      sql.NullString  `json:"Liner_correction"`
+	Raw_data_collected    sql.NullString  `json:"Raw_data_collected"`
+	Standard_name         sql.NullString  `json:"Standard_name"`
+	Standard_set_name     sql.NullString  `json:"Standard_set_name"`
+	Expected_velocity     sql.NullFloat64 `json:"Expected_velocity"`
+	Measurement_no        sql.NullInt64   `json:"Measurement_no"`
+	Meas_separation_mean  sql.NullFloat64 `json:"Meas_separation_mean"`
+	Meas_time_mean        sql.NullFloat64 `json:"Meas_time_mean"`
+	Contact_pressure      sql.NullFloat64 `json:"Contact_pressure"`
+	Liner_thickness       sql.NullFloat64 `json:"Liner_thickness"`
+	Calibration_timestamp sql.NullString  `json:"Calibration_timestamp"`
+	Calib_separation_m0   sql.NullFloat64 `json:"Calibration_separation_m0"`
+	Calib_separation_m1   sql.NullFloat64 `json:"Calibration_separation_m1"`
+	Calib_separation_mse  sql.NullFloat64 `json:"Calibration_separation_mse"`
+	Calib_time_m0         sql.NullFloat64 `json:"Calibration_time_m0"`
+	Calib_time_m1         sql.NullFloat64 `json:"Calibration_time_m1"`
+	Calib_time_mse        sql.NullFloat64 `json:"Calibration_time_mse"`
 }
 
 func JanusPws3SectionModel() *JanusPws3Section {
@@ -68,12 +68,6 @@ func JanusPws3SectionModel() *JanusPws3Section {
 
 // func JSONData(qry string, uri string, filename string) []byte {
 func JanusPws3SectionFunc(qry string, uri string, filename string, database string, collection string, conn *sql.DB, session *mgo.Session) error {
-
-	// conn, err := connect.GetJanusCon()
-	// 	if err != nil {
-	// 		panic(err)
-	// 	}
-	// 	defer conn.Close()
 
 	rows, err := conn.Query(qry)
 	if err != nil {
@@ -100,12 +94,6 @@ func JanusPws3SectionFunc(qry string, uri string, filename string, database stri
 	tableSet := []JanusPws3Sectiontable{}
 	tableSet = append(tableSet, theTable)
 	final := JanusPws3SectioncVSW{tableSet}
-
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer  session.Close()
 
 	// Optional. Switch the session to a Strong behavior.
 	session.SetMode(mgo.Strong, true)
