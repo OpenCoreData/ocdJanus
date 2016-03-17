@@ -7,15 +7,7 @@ import (
 	"opencoredata.org/ocdJanus/metadata"
 )
 
-// database test, collection jsonld
 func UploadCSVToMongo(database string, collection string, URI string, filename string, data []byte, mgoconn *mgo.Session) error {
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer session.Close()
-
-	// Optional. Switch the session to a Strong behavior.
 	mgoconn.SetMode(mgo.Strong, true)
 	db := mgoconn.DB(database)
 
@@ -31,19 +23,11 @@ func UploadCSVToMongo(database string, collection string, URI string, filename s
 
 	}
 
-	// session.Close()
 	return nil
 }
 
 // do this as a embedded fucntion I return and use in the function remotely
 func UploadSchemaOrg(database string, collection string, URI string, data string, mgoconn *mgo.Session) error {
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer session.Close()
-
-	// Optional. Switch the session to a Strong behavior.
 	mgoconn.SetMode(mgo.Strong, true)
 	c := mgoconn.DB(database).C(collection)
 
@@ -55,18 +39,10 @@ func UploadSchemaOrg(database string, collection string, URI string, data string
 		log.Fatalf("In UploadSchemaOrg  with %v\n", err)
 	}
 
-	// session.Close()
 	return nil
 }
 
 func UploadCSVW(database string, collection string, URI string, data string, mgoconn *mgo.Session) error {
-	// session, err := mgo.Dial("127.0.0.1")
-	// if err != nil {
-	// 	panic(err)
-	// }
-	// defer session.Close()
-
-	// Optional. Switch the session to a Strong behavior.
 	mgoconn.SetMode(mgo.Strong, true)
 	c := mgoconn.DB(database).C(collection)
 
@@ -78,6 +54,5 @@ func UploadCSVW(database string, collection string, URI string, data string, mgo
 		log.Fatalf("In UploadCSVW  with %v\n", err)
 	}
 
-	// session.Close()
 	return nil
 }

@@ -4,11 +4,11 @@ import (
 	"database/sql"
 	"fmt"
 	// _ "gopkg.in/goracle.v1"
-	_ "gopkg.in/rana/ora.v3"
+   	_ "gopkg.in/rana/ora.v3"  
 	"os"
 )
 
-// GetConnection returns a connection - using GetDSN if dsn is empty
+// GetJanusCon returns a Oracle DB connection
 func GetJanusCon() (*sql.DB, error) {
 
 	username := os.Getenv("JANUS_USERNAME")
